@@ -1,0 +1,30 @@
+.renseignement {
+    /*Position*/
+    margin-bottom: 20px;
+
+    /*Centrage*/
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+    /*Dimensions*/
+    height: 45px;
+}
+
+label {
+    /*Position*/
+    display: block;
+    
+    /*Dimensions*/
+    height: 25px;
+}
+
+input {
+    /*Position*/
+    display: block;
+    
+    /*Dimensions*/
+    height: 20px;
+    width: 350px;
+}

@@ -1,0 +1,21 @@
+.input_ajout_recette,
+.input_ajout_recette_tel {
+  /*Dimensions*/
+  height: 30px;
+  margin-top: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+
+  /*Texte*/
+  font-size: 1.3em;
+}
+
+.input_ajout_recette {
+  /*Dimensions*/
+  width: 800px;
+}
+
+.input_ajout_recette_tel {
+  /*Dimensions*/
+  width: 350px;
+}

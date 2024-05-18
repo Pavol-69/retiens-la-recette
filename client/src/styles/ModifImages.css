@@ -1,0 +1,13 @@
+.ligne_upload {
+  /*Dimensions*/
+  margin: 5px;
+
+  /*Flex
+  display: flex;
+  flex-direction: row;*/
+}
+
+#plage_insersion_image {
+  /*Dimensions*/
+  width: 100%;
+}

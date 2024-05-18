@@ -1,0 +1,41 @@
+#fond_menu_admin {
+  /*Position*/
+  position: relative;
+  top: 100px;
+}
+
+.ligne_user {
+  /*Position*/
+  position: relative;
+  padding: 10px;
+  margin-left: 70px;
+}
+
+.ligne_user_tel {
+  /*Position*/
+  position: relative;
+  padding: 10px;
+  margin-left: 5px;
+}
+
+.prenom_user,
+.nom_user,
+.role_user,
+.pseudo_user {
+  /*Position*/
+  position: relative;
+
+  /*Dimensions*/
+  width: 200px;
+}
+
+.prenom_user_tel,
+.nom_user_tel,
+.role_user_tel,
+.pseudo_user_tel {
+  /*Position*/
+  position: relative;
+
+  /*Dimensions*/
+  width: 90px;
+}

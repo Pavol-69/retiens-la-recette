@@ -1,0 +1,12 @@
+#menu_modif_nom_categorie {
+  /*Position*/
+  padding-top: 250px;
+
+  /*Dimensions*/
+  width: 100%;
+}
+
+.input_modif {
+  /*Dimensions*/
+  width: 500px;
+}

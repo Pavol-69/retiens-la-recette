@@ -1,0 +1,125 @@
+.paquet_btn_ing {
+  /*Position*/
+  margin: 20px;
+}
+
+#icone_poubelle {
+  /*Position*/
+  position: relative;
+
+  /*Dimensions*/
+  width: 50px;
+  height: 50px;
+  margin: 3px;
+  padding: 2px;
+
+  /*hover*/
+  transition: 0.5s;
+}
+
+#icone_poubelle_img {
+  /*Dimensions*/
+  width: 100%;
+  height: 100%;
+}
+
+.input_section_ing {
+  /*Dimensions*/
+  width: 550px;
+
+  /*Position*/
+  margin: 5px;
+}
+
+.input_section_ing_tel {
+  /*Dimensions*/
+  width: 250px;
+
+  /*Position*/
+  margin: 5px;
+}
+
+.ligne_section_ing,
+.ligne_ingredient {
+  /*Dimensions*/
+  min-height: 30px;
+  margin: 10px;
+
+  /*Alignement*/
+  display: flex;
+  flex-direction: row;
+
+  /*Style*/
+  border-radius: 5px;
+}
+
+.ligne_section_ing {
+  /*Style*/
+  background-color: var(--main-color);
+  color: var(--color-text);
+}
+
+.ligne_ingredient {
+  /*Positon*/
+  margin-left: 50px;
+
+  /*Style*/
+  background-color: var(--color-text);
+  color: var(t--main-color);
+}
+
+.ligne_section_tempo {
+  /*Positon
+  position: relative;*/
+  margin: 10px;
+
+  /*Dimensions*/
+  height: 30px;
+  padding: 5px;
+
+  /*Autre*/
+  transition: 0.5s;
+
+  /*Style*/
+  border: solid;
+  opacity: 0.1;
+  background-color: rgb(50, 50, 50);
+}
+
+.case_icone_4_fleches {
+  /*Dimensions*/
+  width: 30px;
+  height: 30px;
+  padding: 5px;
+}
+
+.saisie {
+  /*Position*/
+  position: relative;
+  left: -40px;
+  margin-right: -40px;
+
+  /*Dimensions*/
+  width: 30px;
+  height: 30px;
+  padding: 5px;
+
+  /*Style*/
+  background-color: rgb(255, 255, 255, 0.000001);
+}
+
+#icone_4_fleches_ing {
+  /*Dimensions*/
+  width: 100%;
+  height: 100%;
+}
+
+.ligne_ingredient {
+  /*Position*/
+  left: 50px;
+}
+
+.input_ing {
+  /*Dimensions*/
+  margin: 5px;
+}

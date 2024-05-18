@@ -1,0 +1,446 @@
+#fond_menu_creation_recette {
+  /*Position*/
+  position: relative;
+
+  /*Dimensions*/
+  width: 1000px;
+  height: 5000px;
+
+  padding-top: 50px;
+  padding-bottom: 100px;
+
+  /*Styles*/
+  background-color: rgb(255, 255, 255, 0.7);
+  border-radius: 5px;
+
+  border: solid;
+}
+
+.icone_modifier {
+  /*Dimensions*/
+  width: 40px;
+  height: 40px;
+  padding: 2px;
+  margin: 3px;
+  border-radius: 22px;
+
+  /*Style*/
+  box-shadow: 0px 0px 10px var(--color-shadow);
+  background-color: rgb(255, 255, 255);
+
+  /*hover*/
+  transition: 0.5s;
+  cursor: pointer;
+}
+
+.icone_modifier:hover {
+  /*Dimensions*/
+  width: 46px;
+  height: 46px;
+  margin: 0px;
+
+  /*Style*/
+  box-shadow: 0px 0px 15px var(--color-shadow);
+}
+
+#icone_modifier_titre {
+  /*Position*/
+  position: absolute;
+  right: 10px;
+  top: -35px;
+}
+
+#icone_modifier_categorie {
+  /*Position*/
+  position: absolute;
+  right: 10px;
+  top: -35px;
+}
+
+#icone_modifier_img {
+  /*Position*/
+  position: absolute;
+  top: 0px;
+  left: 5px;
+}
+
+#bouton_suppr {
+  /*Dimensions*/
+  width: 40px;
+  height: 40px;
+
+  /*Style*/
+  cursor: pointer;
+}
+
+.titre_modif {
+  /*Dimensions*/
+  max-width: 800px;
+  /*Texte*/
+  font-weight: bold;
+  font-size: 2em;
+}
+
+.menu_modif {
+  /*Position*/
+  padding-top: 70px;
+  padding-bottom: 70px;
+
+  /*Dimensions*/
+  width: 800px;
+
+  /*Centrage*/
+  flex-direction: column;
+}
+
+.input_modif,
+.input_modif_tel {
+  /*Position*/
+  margin: 10px;
+
+  /*Dimensions*/
+  height: 30px;
+  margin-top: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+
+  /*Texte*/
+  font-size: 1.3em;
+}
+
+.input_modif {
+  /*Dimensions*/
+  width: 700px;
+}
+
+.input_modif_tel {
+  /*Dimensions*/
+  width: 370px;
+}
+
+#board_modification {
+  /*Position*/
+  left: 100vw;
+  z-index: 3;
+}
+
+.bandeau_gauche {
+  /*Position*/
+  position: relative;
+  z-index: 0;
+
+  /*Dimensions*/
+  width: 400px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  margin: 15px;
+
+  /*Style*/
+  background-color: var(--main-color);
+  border-radius: 10px;
+}
+
+#recette_board {
+  /*Position*/
+  position: relative;
+  margin-top: 20px;
+  margin-bottom: 20px;
+
+  align-items: flex-start;
+
+  /*Dimensions*/
+  height: 100%;
+  width: 100%;
+}
+
+.nb_personne {
+  /*Dimensions*/
+  height: 50px;
+
+  /*Texte*/
+  font-size: 2em;
+}
+
+#icone_modifier_nb_personne {
+  /*Position*/
+  position: absolute;
+  right: 18px;
+  top: 3px;
+}
+
+#icone_modifier_ingredient {
+  /*Position*/
+  position: absolute;
+  top: -10px;
+  right: 5px;
+}
+
+#icone_modifier_step {
+  /*Position*/
+  position: absolute;
+  top: -10px;
+}
+
+#titre_liste_ingredient {
+  /*Position*/
+  position: relative;
+  margin-top: 10px;
+
+  /*Dimensions*/
+  width: 100%;
+  height: 50px;
+
+  /*Texte*/
+  font-family: Cookie;
+  color: var(--color-text);
+  font-size: 3em;
+}
+
+.texte_ingredient {
+  /*Texte*/
+  font-size: 1.2em;
+}
+
+#liste_ingredient {
+  /*Position*/
+  position: relative;
+  padding-left: 20px;
+
+  /*Dimensions*/
+  width: 330px;
+}
+
+.titre_recette {
+  /*Position*/
+  position: relative;
+
+  /*Dimensions*/
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 25px;
+  margin-top: 25px;
+
+  /*Texte*/
+  font-family: Cookie;
+  color: var(--color-text);
+}
+
+#signature {
+  /*Position*/
+  position: absolute;
+  top: 65px;
+  right: 50px;
+
+  /*Dimensions*/
+  width: 300px;
+
+  /*Texte*/
+  text-align: right;
+  font-size: 0.4em;
+}
+
+.intitule_recette {
+  /*Position*/
+  margin: 10px;
+
+  /*Texte*/
+  font-family: Cookie;
+  color: var(--main-color);
+  font-weight: bold;
+  font-size: 3em;
+  text-shadow: var(--color-text) 1px 1px 0px;
+}
+
+.point_step {
+  /*Position*/
+  margin-bottom: 10px;
+}
+
+#liste_step {
+  /*Position*/
+  margin: 10px;
+}
+
+.categorie_rct {
+  /*Position*/
+  position: relative;
+
+  /*Dimensions*/
+  padding-left: 20px;
+  padding-right: 20px;
+  height: 100%;
+  margin: 10px;
+
+  /*Style*/
+  border-radius: 5px;
+  color: var(--color-text);
+  text-shadow: 1px 1px 2px var(--main-color);
+
+  /*Texte*/
+  font-size: 1.2em;
+}
+
+.liste_categorie {
+  /*Position*/
+  position: relative;
+
+  /*Dimensions*/
+}
+
+#image_board {
+  /*Position*/
+  position: relative;
+
+  /*Dimensions*/
+  width: 400px;
+  height: 500px;
+  margin: 50px;
+
+  overflow: hidden;
+  border-radius: 30px;
+
+  /*Style*/
+  filter: drop-shadow(0 0 2rem);
+}
+
+#carrousel {
+  /*Position*/
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+
+  /*Dimensions*/
+  width: 500%;
+
+  /*Flex*/
+  display: flex;
+  flex-direction: row;
+
+  /*Autre*/
+  transition: 1s;
+}
+
+.cadre_image_recette {
+  /*Position*/
+  position: relative;
+
+  /*Dimensions*/
+  width: 20%;
+  height: 100%;
+
+  /*Style
+  background-color: black;*/
+}
+
+.image_recette {
+  /*Position*/
+  z-index: -1;
+
+  /*Dimensions*/
+  min-height: 100%;
+  min-width: 100%;
+  object-fit: cover;
+}
+
+.message_aucune_image {
+  /*Position*/
+  position: absolute;
+
+  /*Dimensions*/
+  padding: 20px;
+  margin: 20px;
+
+  /*Style*/
+  background-color: rgb(255, 255, 255, 0.6);
+  border-radius: 10px;
+}
+
+.carrousel_left,
+.carrousel_right {
+  /*Position*/
+  position: absolute;
+  top: 50px;
+  bottom: 50px;
+
+  /*Dimensions*/
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.carrousel_left {
+  /*Position*/
+  left: 0px;
+}
+
+.carrousel_right {
+  /*Position*/
+  right: 0px;
+}
+
+.fond_bouton {
+  /*Dimensions*/
+  border-radius: 40px;
+  /*hover*/
+  transition: 0.5s;
+  cursor: pointer;
+}
+
+#points_carrousel {
+  /*Position*/
+  position: absolute;
+  bottom: 40px;
+
+  /*Dimensions*/
+  width: 100%;
+  height: 20px;
+}
+
+.rond_carrousel {
+  /*Dimensions*/
+  width: 20px;
+  height: 20px;
+  margin-left: 30px;
+  margin-right: 30px;
+  border-radius: 10px;
+  border: solid;
+  border-width: 1px;
+
+  /*Style*/
+  background-color: rgba(255, 255, 255, 0.8);
+
+  /*Autre*/
+  transition: all 1s;
+  cursor: pointer;
+}
+
+#main_board {
+  /*Position*/
+  position: relative;
+  margin-top: 30px;
+  display: flex;
+}
+
+.limite {
+  /*Position*/
+  position: relative;
+
+  /*Dimensions*/
+  height: 100%;
+  width: 100%;
+
+  /*Autre*/
+  overflow: hidden;
+
+  /*Style*/
+  filter: drop-shadow(0 0 0.75rem);
+}
+
+.modif_recette {
+  /*Dimensions*/
+  width: 1000px;
+}
+
+.modif_recette_tel {
+  /*Dimensions*/
+  width: 400px;
+}

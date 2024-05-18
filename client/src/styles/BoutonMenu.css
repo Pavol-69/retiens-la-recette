@@ -1,0 +1,52 @@
+.bouton_menu {
+  /*Position*/
+  position: relative;
+
+  /*Centrage*/
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  /*Dimensions*/
+  height: 100%;
+  padding-left: 20px;
+  padding-right: 20px;
+
+  /*Style*/
+  color: var(--color-text);
+  text-decoration: none;
+  cursor: pointer;
+
+  /*Hover*/
+  transition: 0.5s;
+
+  /*Texte*/
+  font-family: "Roboto";
+  font-size: 1.1em;
+  font-weight: bold;
+}
+
+.bouton_menu::after {
+  /*Position*/
+  position: absolute;
+  top: 42px;
+
+  /*Dimensions*/
+  height: 2px;
+  width: 0px;
+
+  /*Style*/
+  background-color: var(--color-text);
+
+  /*Gégéral*/
+  content: "";
+
+  /*Hover*/
+  transition: 0.3s;
+}
+
+.bouton_menu:hover:after {
+  width: 100%;
+  content: "";
+}

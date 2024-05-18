@@ -1,0 +1,59 @@
+.form_renseignement {
+  /*Position*/
+  position: relative;
+  width: 550px;
+}
+
+.form_renseignement_tel {
+  /*Position*/
+  position: relative;
+  width: 350px;
+}
+
+.renseignement_connexion {
+  /*Position*/
+  position: relative;
+  margin-bottom: 10px;
+
+  /*Dimensions*/
+  width: 100%;
+}
+
+.label_connexion {
+  /*Position*/
+  margin-top: 20px;
+
+  /*Dimensions*/
+  width: 100%;
+  height: 40px;
+
+  /*Style*/
+  text-shadow: 1px 1px 2px var(--main-color);
+}
+
+.btn_connexion {
+  /*Position*/
+  margin-top: 30px;
+}
+
+.input_connexion {
+  /*Dimensions*/
+  height: 30px;
+  width: 100%;
+}
+
+.input_connexion_tel {
+  /*Dimensions*/
+  height: 30px;
+  width: 350px;
+}
+
+#bouton_reset_password {
+  /*Position*/
+  margin-top: 20px;
+}
+
+.pqt_bouton_connexion {
+  /*Position*/
+  margin-top: 30px;
+}

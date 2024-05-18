@@ -1,0 +1,77 @@
+.bouton_board,
+.bouton_board_empty,
+.bouton_board_tel,
+.bouton_board_empty_tel {
+  /*Centrage*/
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /*Dimensions*/
+  margin-left: 20px;
+  margin-right: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+
+  /*Style*/
+
+  color: var(--color-text);
+  text-decoration: none;
+  border-radius: 10px;
+
+  /*hoover*/
+  transition: 0.5s;
+  cursor: pointer;
+
+  /*Texte*/
+  font-family: "Roboto";
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.bouton_board_tel,
+.bouton_board_empty_tel {
+  /*Dimensions*/
+  height: 50px;
+  width: 90px;
+
+  /*Texte*/
+  font-size: 1em;
+}
+
+.bouton_board,
+.bouton_board_empty {
+  /*Dimensions*/
+  height: 60px;
+  width: 200px;
+
+  /*Texte*/
+  font-size: 1.5em;
+}
+
+.bouton_board,
+.bouton_board_tel {
+  background-color: var(--main-color);
+}
+
+.bouton_board_empty,
+.bouton_board_empty_tel {
+  border: solid 1px;
+}
+
+.bouton_board:hover,
+.bouton_board_empty:hover {
+  /*Style*/
+  background-color: var(--color-text);
+  color: var(--main-color);
+}
+
+.paquet_boutons {
+  /*Centrage*/
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /*Position*/
+  margin-top: 20px;
+}

@@ -1,0 +1,21 @@
+.img_bandeau {
+  /*Position*/
+  position: absolute;
+  z-index: -3;
+
+  /*Dimensions*/
+  width: 100%;
+  object-fit: cover;
+}
+
+.degrade {
+  /*Position*/
+  position: absolute;
+  z-index: -1;
+
+  /*Dimensions*/
+  width: 100%;
+
+  /*Style*/
+  background: linear-gradient(rgb(0, 0, 0, 0), rgb(255, 255, 255));
+}

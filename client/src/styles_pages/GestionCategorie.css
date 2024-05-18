@@ -1,0 +1,17 @@
+.form_categorie {
+  /*Position*/
+  margin-top: 30px;
+
+  /*Dimensions*/
+  max-width: 1500px;
+}
+
+.ligne_info_cat {
+  /*Position*/
+  margin-top: 15px;
+}
+
+.paquet_cat {
+  /*Position*/
+  margin-top: 40px;
+}
