@@ -7,6 +7,8 @@ const bcrypt = require("bcryptjs");
 const saltRounds = 10;
 module.exports.bcrypt = bcrypt;
 
+//"heroku-postbuild": "cd client && npm install && npm run build"
+
 const PORT = process.env.PORT || 5000;
 
 // Middlewear
@@ -30,12 +32,9 @@ app.use("/forgottenpassword", require("./routes/forgottenPassword"));
 // Recette
 app.use("/recipe", require("./routes/recipe"));
 
+// Pour toute autre demande, on renvoie le même message qu'un non autorisation
 app.get("*", function (req, res) {
-  res.sendFile(path.join(__dirname, "client/build/index.html"), function (err) {
-    if (err) {
-      res.status(500).send(err);
-    }
-  });
+  res.status(403).json("Non autorisé");
 });
 
 app.listen(PORT, () => {
