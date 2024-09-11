@@ -1,0 +1,18 @@
+.cat_filtre {
+  /*Position*/
+  position: relative;
+
+  /*Dimensions*/
+  height: 50px;
+  padding: 0px 20px 0px 20px;
+  border-radius: 50px;
+
+  /*Style*/
+  font-size: 1.5em;
+  cursor: pointer;
+  border: solid 1px;
+  color: var(--main);
+
+  /*Animation*/
+  transition: 0.5s;
+}

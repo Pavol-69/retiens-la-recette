@@ -6,7 +6,7 @@ import Bandeau from "../components/Bandeau";
 
 // CSS
 import "../styles/CSSGeneral.css";
-import "../styles_pages/Connexion.css";
+import "../styles_pages/UserInfo.css";
 
 // Autre
 import React, { useState, useEffect } from "react";
@@ -25,6 +25,8 @@ function PageUserInfos({
   tailleTel,
   tailleInt1,
   tailleInt2,
+  dark,
+  setDark,
 }) {
   const [myInfo, setMyInfo] = useState({
     name: "",
@@ -106,6 +108,7 @@ function PageUserInfos({
       const parseRes = await response.json();
       if (parseRes === true) {
         toast.success("Informations mises à jour");
+        window.location.replace("/");
       } else {
         toast.error(parseRes);
       }
@@ -133,6 +136,194 @@ function PageUserInfos({
 
   return (
     <div className="relatif">
+      <Bandeau mySize="medium" dark={dark} />
+      <div className="board">
+        <form className="grid_user" onSubmit={(e) => onSubmitForm(e)}>
+          <div></div>
+          <div
+            className="sub_grid_user"
+            style={{ width: tailleTel ? "350px" : "600px" }}
+          >
+            <label
+              className="gras texte_taille_3 texte_centre"
+              style={{
+                color: `var(--${dark ? "wht" : "blk"})`,
+              }}
+            >
+              Prénom
+            </label>
+            <input
+              className="input"
+              onChange={(e) => myOnChange(e)}
+              type="text"
+              name="name"
+              placeholder="Prénom"
+              value={name}
+              style={{
+                color: `var(--${dark ? "wht" : "blk"})`,
+                backgroundColor: `var(--${dark ? "blk" : "wht"})`,
+              }}
+            />
+          </div>
+
+          <div
+            className="sub_grid_user"
+            style={{ width: tailleTel ? "350px" : "600px" }}
+          >
+            <label
+              className="gras texte_taille_3 texte_centre"
+              style={{
+                color: `var(--${dark ? "wht" : "blk"})`,
+              }}
+            >
+              Nom de Famille
+            </label>
+            <input
+              className="input"
+              onChange={(e) => myOnChange(e)}
+              type="text"
+              name="family_name"
+              placeholder="Nom"
+              value={family_name}
+              style={{
+                color: `var(--${dark ? "wht" : "blk"})`,
+                backgroundColor: `var(--${dark ? "blk" : "wht"})`,
+              }}
+            />
+          </div>
+
+          <div
+            className="sub_grid_user"
+            style={{ width: tailleTel ? "350px" : "600px" }}
+          >
+            <label
+              className="gras texte_taille_3 texte_centre"
+              style={{
+                color: `var(--${dark ? "wht" : "blk"})`,
+              }}
+            >
+              Pseudo
+            </label>
+            <input
+              className="input"
+              onChange={(e) => myOnChange(e)}
+              type="text"
+              name="pseudo"
+              placeholder="Pseudo"
+              value={pseudo}
+              style={{
+                color: `var(--${dark ? "wht" : "blk"})`,
+                backgroundColor: `var(--${dark ? "blk" : "wht"})`,
+              }}
+            />
+          </div>
+
+          <div
+            className="sub_grid_user"
+            style={{ width: tailleTel ? "350px" : "600px" }}
+          >
+            <label
+              className="gras texte_taille_3 texte_centre"
+              style={{
+                color: `var(--${dark ? "wht" : "blk"})`,
+              }}
+            >
+              Adresse Mail
+            </label>
+            <input
+              className="input"
+              onChange={(e) => myOnChange(e)}
+              type="mail"
+              name="mail"
+              placeholder="Adresse Mail"
+              value={mail}
+              style={{
+                color: `var(--${dark ? "wht" : "blk"})`,
+                backgroundColor: `var(--${dark ? "blk" : "wht"})`,
+              }}
+            />
+          </div>
+
+          <div
+            className="sub_grid_user"
+            style={{ width: tailleTel ? "350px" : "600px" }}
+          >
+            <label
+              className="gras texte_taille_3 texte_centre"
+              style={{
+                color: `var(--${dark ? "wht" : "blk"})`,
+              }}
+            >
+              Mot de passe, première saisie
+            </label>
+            <input
+              className="input"
+              onChange={(e) => myOnChange(e)}
+              type="password"
+              name="password1"
+              placeholder="Mot de passe"
+              style={{
+                color: `var(--${dark ? "wht" : "blk"})`,
+                backgroundColor: `var(--${dark ? "blk" : "wht"})`,
+              }}
+            />
+          </div>
+
+          <div
+            className="sub_grid_user"
+            style={{ width: tailleTel ? "350px" : "600px" }}
+          >
+            <label
+              className="gras texte_taille_3 texte_centre"
+              style={{
+                color: `var(--${dark ? "wht" : "blk"})`,
+              }}
+            >
+              Mot de passe, seconde saisie
+            </label>
+            <input
+              className="input"
+              onChange={(e) => myOnChange(e)}
+              type="password"
+              name="password2"
+              style={{
+                color: `var(--${dark ? "wht" : "blk"})`,
+                backgroundColor: `var(--${dark ? "blk" : "wht"})`,
+              }}
+              placeholder={
+                tailleTel
+                  ? "Mot de passe, seconde saisie"
+                  : "Veuillez renseigner votre mot de passe à nouveau"
+              }
+            />
+          </div>
+          <div className="pqt_bouton_user elements_centre ligne">
+            <div
+              className="button"
+              id="bouton_validation"
+              onClick={(e) => onSubmitForm(e)}
+              style={{
+                color: `var(--${dark ? "wht" : "blk"})`,
+              }}
+            >
+              Valider
+            </div>
+            <div
+              className="button"
+              onClick={(e) => desinscription(e)}
+              style={{
+                color: `var(--${dark ? "wht" : "blk"})`,
+              }}
+            >
+              Désinscription
+            </div>
+          </div>
+          <button
+            onClick={(e) => onSubmitForm(e)}
+            style={{ visibility: "hidden" }}
+          ></button>
+        </form>
+      </div>
       <BarreNavigation
         isAuth={isAuth}
         setIsAuth={setIsAuth}
@@ -145,150 +336,17 @@ function PageUserInfos({
         tailleTel={tailleTel}
         tailleInt1={tailleInt1}
         tailleInt2={tailleInt2}
+        dark={dark}
+        setDark={setDark}
       />
-      <Bandeau mySize="big" />
-      <div className="board">
-        <form onSubmit={(e) => onSubmitForm(e)}>
-          <div className="renseignement_connexion">
-            <label className="label_connexion couleur_texte gras texte_taille_3 texte_centre">
-              Prénom
-            </label>
-            <input
-              className={
-                tailleTel
-                  ? "input_connexion_tel texte_taille_2"
-                  : "input_connexion texte_taille_2"
-              }
-              onChange={(e) => myOnChange(e)}
-              type="text"
-              name="name"
-              placeholder="Prénom"
-              value={name}
-            ></input>
-          </div>
-
-          <div className="renseignement_connexion">
-            <label className="label_connexion couleur_texte gras texte_taille_3 texte_centre">
-              Nom de Famille
-            </label>
-            <input
-              className={
-                tailleTel
-                  ? "input_connexion_tel texte_taille_2"
-                  : "input_connexion texte_taille_2"
-              }
-              onChange={(e) => myOnChange(e)}
-              type="text"
-              name="family_name"
-              placeholder="Nom"
-              value={family_name}
-            ></input>
-          </div>
-
-          <div className="renseignement_connexion">
-            <label className="label_connexion couleur_texte gras texte_taille_3 texte_centre">
-              Pseudo
-            </label>
-            <input
-              className={
-                tailleTel
-                  ? "input_connexion_tel texte_taille_2"
-                  : "input_connexion texte_taille_2"
-              }
-              onChange={(e) => myOnChange(e)}
-              type="text"
-              name="pseudo"
-              placeholder="Pseudo"
-              value={pseudo}
-            ></input>
-          </div>
-
-          <div className="renseignement_connexion">
-            <label className="label_connexion couleur_texte gras texte_taille_3 texte_centre">
-              Adresse Mail
-            </label>
-            <input
-              className={
-                tailleTel
-                  ? "input_connexion_tel texte_taille_2"
-                  : "input_connexion texte_taille_2"
-              }
-              onChange={(e) => myOnChange(e)}
-              type="mail"
-              name="mail"
-              placeholder="Adresse Mail"
-              value={mail}
-            ></input>
-          </div>
-
-          <div className="renseignement_connexion">
-            <label className="label_connexion couleur_texte gras texte_taille_3 texte_centre">
-              Mot de passe, première saisie
-            </label>
-            <input
-              className={
-                tailleTel
-                  ? "input_connexion_tel texte_taille_2"
-                  : "input_connexion texte_taille_2"
-              }
-              onChange={(e) => myOnChange(e)}
-              type="password"
-              name="password1"
-              placeholder="Mot de passe"
-            ></input>
-          </div>
-
-          <div className="renseignement_connexion">
-            <label className="label_connexion couleur_texte gras texte_taille_3 texte_centre">
-              Mot de passe, seconde saisie
-            </label>
-            <input
-              className={
-                tailleTel
-                  ? "input_connexion_tel texte_taille_2"
-                  : "input_connexion texte_taille_2"
-              }
-              onChange={(e) => myOnChange(e)}
-              type="password"
-              name="password2"
-              placeholder={
-                tailleTel
-                  ? "Mot de passe, seconde saisie"
-                  : "Veuillez renseigner votre mot de passe à nouveau"
-              }
-            ></input>
-          </div>
-          <div className="pqt_bouton_connexion ligne">
-            <div
-              className={
-                tailleTel
-                  ? "bouton_board_tel non_selectionnable"
-                  : "bouton_board non_selectionnable"
-              }
-              id="bouton_validation"
-              onClick={(e) => onSubmitForm(e)}
-            >
-              Valider
-            </div>
-            <div
-              className={
-                tailleTel
-                  ? "bouton_board_tel non_selectionnable"
-                  : "bouton_board non_selectionnable"
-              }
-              onClick={(e) => desinscription(e)}
-            >
-              Désinscription
-            </div>
-          </div>
-          <button
-            onClick={(e) => onSubmitForm(e)}
-            style={{ visibility: "hidden" }}
-          ></button>
-        </form>
-      </div>
-      <MenuAjoutRecette toShow={toShow} setToShow={setToShow} pseudo={pseudo} />
-      <PiedDePage />
+      <MenuAjoutRecette
+        toShow={toShow}
+        setToShow={setToShow}
+        pseudo={pseudo}
+        dark={dark}
+        setDark={setDark}
+      />
+      <PiedDePage dark={dark} />
     </div>
   );
 }

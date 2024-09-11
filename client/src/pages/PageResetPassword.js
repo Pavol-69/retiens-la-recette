@@ -1,6 +1,6 @@
 // Components
 import PiedDePage from "../components/PiedDePage";
-import BarreNavigation from "../components/BarreNavigation";
+import Titre from "../components/Titre";
 import Bandeau from "../components/Bandeau";
 
 // CSS
@@ -12,7 +12,14 @@ import React, { useState } from "react";
 import { useParams } from "react-router";
 import { toast } from "react-toastify";
 
-function PageResetPassword({ isAuth, setIsAuth, tailleTel }) {
+function PageResetPassword({
+  setIsAuth,
+  tailleOrdi,
+  tailleTel,
+  tailleInt1,
+  tailleInt2,
+  dark,
+}) {
   const [myPasswords, setMyPasswords] = useState({
     password1: "",
     password2: "",
@@ -58,56 +65,57 @@ function PageResetPassword({ isAuth, setIsAuth, tailleTel }) {
 
   return (
     <div className="relatif">
-      <BarreNavigation isAuth={isAuth} setIsAuth={setIsAuth} />
-      <Bandeau mySize="big" />
-      <div className="board elements_centre">
+      <Bandeau mySize="medium" dark={dark} />
+      <div className="grid_reset_mdp board">
+        <Titre
+          tailleTel={tailleTel}
+          tailleInt1={tailleInt1}
+          tailleInt2={tailleInt2}
+          tailleOrdi={tailleOrdi}
+        />
+        <div className="txt_mdp_oublie texte_taille_2 texte_centre margin_auto">
+          Veuillez choisir un nouveau mot de passe.
+        </div>
         <form
-          className={
-            tailleTel
-              ? "form_renseignement_tel elements_centre colonne"
-              : "form_renseignement elements_centre colonne"
-          }
+          className="grid_reset_mdp_form margin_auto"
+          style={{ width: tailleTel ? "350px" : "450px" }}
           onSubmit={onSubmitForm}
         >
-          <div className="renseignement_connexion">
-            <label className="label_connexion couleur_texte gras texte_taille_3 texte_centre">
-              Mot de Passe, première saisie
-            </label>
-            <input
-              type="password"
-              className="input_connexion texte_taille_2"
-              name="password1"
-              placeholder="Mot de passe, première saisie..."
-              onChange={myOnChange}
-            ></input>
-          </div>
-          <div className="renseignement_connexion">
-            <label className="label_connexion couleur_texte gras texte_taille_3 texte_centre">
-              Mot de Passe, seconde saisie
-            </label>
-            <input
-              type="password"
-              className="input_connexion texte_taille_2"
-              name="password2"
-              placeholder="Mot de passe, seconde saisie..."
-              onChange={myOnChange}
-            ></input>
-          </div>
+          <input
+            type="password"
+            className="input margin_auto"
+            name="password1"
+            placeholder="Mot de passe..."
+            onChange={myOnChange}
+            style={{
+              color: dark ? "var(--wht)" : "var(--blk)",
+              backgroundColor: dark ? "var(--blk)" : "var(--wht)",
+            }}
+          ></input>
+
+          <input
+            type="password"
+            className="input margin_auto"
+            name="password2"
+            placeholder="Confirmation mot de passe..."
+            onChange={myOnChange}
+            style={{
+              color: dark ? "var(--wht)" : "var(--blk)",
+              backgroundColor: dark ? "var(--blk)" : "var(--wht)",
+            }}
+          ></input>
+
           <div
-            className={
-              tailleTel
-                ? "btn_connexion bouton_board_empty_tel non_selectionnable texte_centre"
-                : "btn_connexion bouton_board_empty non_selectionnable texte_centre"
-            }
+            className="button margin_auto"
             id="bouton_reset_password"
             onClick={onSubmitForm}
           >
-            Réinitialisation Mot de passe
+            Réinitialisation
           </div>
         </form>
       </div>
 
-      <PiedDePage />
+      <PiedDePage dark={dark} />
     </div>
   );
 }

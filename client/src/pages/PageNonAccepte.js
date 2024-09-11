@@ -1,16 +1,24 @@
 // Components
 import PiedDePage from "../components/PiedDePage";
-import BarreNavigation from "../components/BarreNavigation";
+import Titre from "../components/Titre";
 import Bandeau from "../components/Bandeau";
 
 // CSS
 import "../styles/CSSGeneral.css";
-import "../styles_pages/PageNonAccepte.css";
 
 // Autre
 import { toast } from "react-toastify";
 
-function PageNonAccepte({ role, isAuth, setIsAuth, tailleTel }) {
+function PageNonAccepte({
+  role,
+  isAuth,
+  setIsAuth,
+  tailleOrdi,
+  tailleTel,
+  tailleInt1,
+  tailleInt2,
+  dark,
+}) {
   function logout(e) {
     e.preventDefault();
     localStorage.removeItem("token");
@@ -48,59 +56,34 @@ function PageNonAccepte({ role, isAuth, setIsAuth, tailleTel }) {
 
   return (
     <div className="relatif">
-      <BarreNavigation role={role} isAuth={isAuth} setIsAuth={setIsAuth} />
-      <Bandeau mySize="big" />
-      <div className="board elements_centre">
-        {role === "to_define" ? (
-          <div className="ensemble_to_define elements_centre colonne texte_en_attente">
-            <div className="couleur_texte texte_taille_5 texte_en_attente gras texte_centre">
-              Votre demande d'inscription est en attente.
-            </div>
-            <div className="paquet_bouton ligne">
-              <div
-                onClick={(e) => logout(e)}
-                className={
-                  tailleTel
-                    ? "bouton_board_empty_tel non_selectionnable"
-                    : "bouton_board_empty non_selectionnable"
-                }
-              >
-                Déconnexion
-              </div>
-              <div
-                onClick={(e) => desinscription(e)}
-                className={
-                  tailleTel
-                    ? "bouton_board_empty_tel non_selectionnable texte_centre"
-                    : "bouton_board_empty non_selectionnable texte_centre"
-                }
-              >
-                Se désinscrire
-              </div>
-            </div>
+      <Bandeau mySize="medium" dark={dark} />
+      <div className="grid_non_accepte board">
+        <Titre
+          tailleTel={tailleTel}
+          tailleInt1={tailleInt1}
+          tailleInt2={tailleInt2}
+          tailleOrdi={tailleOrdi}
+        />
+
+        <div className="txt_mdp_oublie texte_taille_2 texte_centre margin_auto">
+          {role === "to_define"
+            ? "Votre demande d'inscription est en attente."
+            : "Désolé, votre demande d'inscription a été rejetée."}
+        </div>
+        <div className="paquet_bouton ligne margin_auto">
+          <div onClick={(e) => logout(e)} className="button margin_auto">
+            Déconnexion
           </div>
-        ) : (
-          <div className="ensemble_to_define elements_centre colonne texte_en_attente">
-            <div className="couleur_texte texte_taille_5 texte_en_attente gras texte_centre">
-              Désolé, votre demande d'inscription a été rejetée.
-            </div>
-            <div className="paquet_bouton ligne">
-              <div
-                onClick={(e) => logout(e)}
-                className={
-                  tailleTel
-                    ? "bouton_board_empty_tel non_selectionnable"
-                    : "bouton_board_empty non_selectionnable"
-                }
-              >
-                Déconnexion
-              </div>
-            </div>
+          <div
+            onClick={(e) => desinscription(e)}
+            className="button margin_auto"
+          >
+            Désinscription
           </div>
-        )}
+        </div>
       </div>
 
-      <PiedDePage />
+      <PiedDePage dark={dark} />
     </div>
   );
 }

@@ -14,7 +14,6 @@
 
   /*Style*/
   background-color: rgb(255, 255, 255);
-  box-shadow: 0px 5px 10px var(--color-shadow);
   border-radius: 10px;
 
   /*Autre*/
@@ -64,4 +63,10 @@
   /*Style*/
   background-color: rgb(50, 50, 50, 0.8);
   color: rgb(200, 200, 200);
+}
+
+.ctn_name {
+  /*Position*/
+  padding: 10px;
+  text-align: center;
 }

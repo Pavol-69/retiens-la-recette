@@ -7,7 +7,7 @@ import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { Navigate } from "react-router-dom";
 
-function MenuAjoutRecette({ toShow, setToShow, pseudo, tailleTel }) {
+function MenuAjoutRecette({ dark, toShow, setToShow, pseudo, tailleTel }) {
   const [myBoardPosition, setMyBoardPosition] = useState("100vw");
   const [myName, setMyName] = useState("");
   const [path, setPath] = useState("");
@@ -20,8 +20,6 @@ function MenuAjoutRecette({ toShow, setToShow, pseudo, tailleTel }) {
       setMyBoardPosition("100vw");
     }
   }, [toShow]);
-
-  const myLeft = { left: myBoardPosition };
 
   // Fonctions fetch
   async function addRecipe() {
@@ -41,7 +39,7 @@ function MenuAjoutRecette({ toShow, setToShow, pseudo, tailleTel }) {
 
       const parseRes = await response.json();
 
-      if (parseRes.rows[0].rct_id) {
+      if (parseRes.rows) {
         toast.success("Recette créée");
         setPath("/recette/" + parseRes.rows[0].rct_id);
         setIsLoaded(true);
@@ -78,47 +76,49 @@ function MenuAjoutRecette({ toShow, setToShow, pseudo, tailleTel }) {
     <div
       id="boardAjoutRecette"
       className="board_menu_suppl elements_centre"
-      style={myLeft}
+      style={{
+        left: myBoardPosition,
+        backgroundColor: `rgb(${dark ? "30, 30, 30" : "250, 250, 250"}, 0.5)`,
+      }}
     >
       {toShow ? (
         <form
-          className="elements_centre colonne"
+          className="grid_new_rct elements_centre"
           onSubmit={(e) => onSubmitValider(e)}
           style={{ width: tailleTel ? "400px" : "800px" }}
         >
-          <div className="texte_taille_4 gras texte_centre">
+          <div
+            className="texte_taille_4 gras texte_centre"
+            style={{ color: `var(--${dark ? "wht" : "blk"})` }}
+          >
             Veuillez donner un nom à votre nouvelle recette
           </div>
           <input
             onChange={myOnChange}
-            className={
-              tailleTel ? "input_ajout_recette_tel" : "input_ajout_recette"
-            }
+            className="input"
             type="text"
             name="rct_name"
-            placeholder="Nom de votre nouvelle recette"
+            placeholder="Nom de votre nouvelle recette..."
             value={myName}
+            style={{
+              left: "8px",
+              width: tailleTel ? "350px" : "800px",
+              backgroundColor: `var(--${dark ? "blk" : "wht"})`,
+              color: `var(--${dark ? "wht" : "blk"})`,
+            }}
           ></input>
-          <div className="paquet_boutons">
+          <div className="pqt_boutons elements_centre">
             <div
-              className={
-                tailleTel
-                  ? "bouton_board_tel non_selectionnable"
-                  : "bouton_board non_selectionnable"
-              }
-              id="bouton_valider"
+              className="button non_selectionnable"
               onClick={(e) => onSubmitValider(e)}
+              style={{ color: `var(--${dark ? "wht" : "blk"})` }}
             >
               Valider
             </div>
             <div
-              className={
-                tailleTel
-                  ? "bouton_board_tel non_selectionnable"
-                  : "bouton_board non_selectionnable"
-              }
-              id="bouton_annuler"
+              className="button non_selectionnable"
               onClick={(e) => annuler(e)}
+              style={{ color: `var(--${dark ? "wht" : "blk"})` }}
             >
               Annuler
             </div>

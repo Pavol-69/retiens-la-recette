@@ -1,13 +1,64 @@
-.form_renseignement {
-  /*Position*/
-  position: relative;
-  width: 550px;
+.grid_connexion {
+  /*Grille*/
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 300px auto;
 }
 
-.form_renseignement_tel {
-  /*Position*/
-  position: relative;
-  width: 350px;
+.grid_connexion_form {
+  /*Grille*/
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 90px 90px 50px 80px 40px 20px 0px;
+}
+
+.grid_inscription {
+  /*Grille*/
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 230px auto;
+}
+
+.grid_inscription_form {
+  /*Grille*/
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(7, 83px);
+}
+
+.grid_mdp_oublie {
+  /*Grille*/
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 230px 100px auto;
+}
+
+.grid_mdp_oublie_form {
+  /*Grille*/
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(2, 83px);
+}
+
+.grid_reset_mdp {
+  /*Grille*/
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 230px 50px auto;
+}
+
+.grid_reset_mdp_form {
+  /*Grille*/
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(3, 83px);
+}
+
+.grid_non_accepte {
+  /*Grille*/
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 230px 100px 100px;
 }
 
 .renseignement_connexion {
@@ -19,41 +70,62 @@
   width: 100%;
 }
 
-.label_connexion {
+.mdp_oublie {
   /*Position*/
-  margin-top: 20px;
+  position: absolute;
+  right: 0px;
 
   /*Dimensions*/
-  width: 100%;
-  height: 40px;
+  height: 100%;
+
+  /*Texte*/
+  color: var(--main);
+}
+
+.mdp_oublie:hover {
+  /*Position*/
+  right: -1px;
 
   /*Style*/
-  text-shadow: 1px 1px 2px var(--main-color);
+  font-weight: bold;
 }
 
-.btn_connexion {
+.remember_mdp_oublie_line {
   /*Position*/
-  margin-top: 30px;
-}
+  position: relative;
 
-.input_connexion {
   /*Dimensions*/
-  height: 30px;
   width: 100%;
-}
-
-.input_connexion_tel {
-  /*Dimensions*/
   height: 30px;
-  width: 350px;
 }
 
-#bouton_reset_password {
+.remember {
   /*Position*/
-  margin-top: 20px;
+  position: absolute;
+  left: 0px;
+
+  /*Dimensions*/
+  height: 100%;
 }
 
-.pqt_bouton_connexion {
-  /*Position*/
-  margin-top: 30px;
+.to_inscription {
+  /*Texte*/
+  color: var(--main);
+
+  /*Style*/
+  cursor: pointer;
+}
+
+.to_inscription:hover {
+  /*Style*/
+  font-weight: bold;
+}
+
+.txt_mdp_oublie {
+  /*Dimensions*/
+  max-width: 700px;
+  padding: 0px 20px 0px 20px;
+
+  /*Style*/
+  color: var(--wht);
 }

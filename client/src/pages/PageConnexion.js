@@ -1,6 +1,6 @@
 // Components
 import PiedDePage from "../components/PiedDePage";
-import BarreNavigation from "../components/BarreNavigation";
+import Titre from "../components/Titre";
 import Bandeau from "../components/Bandeau";
 
 // CSS
@@ -12,11 +12,21 @@ import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 
-function PageConnexion({ setIsAuth, tailleTel }) {
+function PageConnexion({
+  setIsAuth,
+  tailleOrdi,
+  tailleTel,
+  tailleInt1,
+  tailleInt2,
+  dark,
+  setDark,
+}) {
   const [myInfo, setMyInfo] = useState({
     mail: "",
     password: "",
   });
+
+  const [remember, setRemember] = useState(false);
 
   const { mail, password } = myInfo;
 
@@ -32,6 +42,7 @@ function PageConnexion({ setIsAuth, tailleTel }) {
         body: JSON.stringify({
           mail: mail,
           password: password,
+          remember: remember,
         }),
       });
 
@@ -40,6 +51,7 @@ function PageConnexion({ setIsAuth, tailleTel }) {
       if (parseRes.token) {
         localStorage.setItem("token", parseRes.token);
         setIsAuth(true);
+        setDark(parseRes.userDark);
         toast.success("Connexion réussie");
       } else {
         toast.error(parseRes);
@@ -53,65 +65,99 @@ function PageConnexion({ setIsAuth, tailleTel }) {
     setMyInfo({ ...myInfo, [e.target.name]: e.target.value });
   }
 
+  function onChangeRemember(e) {
+    //e.preventDefault();
+    if (remember) {
+      setRemember(false);
+    } else {
+      setRemember(true);
+    }
+  }
+
   return (
     <div className="relatif">
-      <Bandeau mySize="big" />
-      <div className="board">
+      <Bandeau mySize="medium" dark={dark} />
+      <div className="grid_connexion board">
+        <Titre
+          tailleTel={tailleTel}
+          tailleInt1={tailleInt1}
+          tailleInt2={tailleInt2}
+          tailleOrdi={tailleOrdi}
+        />
         <form
-          className="form_renseignement elements_centre colonne"
+          className="grid_connexion_form margin_auto"
+          style={{ width: tailleTel ? "350px" : "450px" }}
           onSubmit={(e) => onSubmitForm(e)}
         >
-          <div className="renseignement_connexion elements_centre colonne">
-            <label className="label_connexion couleur_texte gras texte_taille_3 texte_centre">
-              Adresse Mail
-            </label>
-            <input
-              className={
-                tailleTel
-                  ? "input_connexion_tel texte_taille_2"
-                  : "input_connexion texte_taille_2"
-              }
-              onChange={myOnChange}
-              type="mail"
-              name="mail"
-              placeholder="Adresse mail"
-            ></input>
-          </div>
+          <input
+            className="input margin_auto"
+            onChange={myOnChange}
+            type="mail"
+            name="mail"
+            placeholder="Adresse mail..."
+            style={{
+              color: dark ? "var(--wht)" : "var(--blk)",
+              backgroundColor: dark ? "var(--blk)" : "var(--wht)",
+            }}
+          ></input>
 
-          <div className="renseignement_connexion elements_centre colonne">
-            <label className="label_connexion couleur_texte gras texte_taille_3 texte_centre">
-              Mot de passe
-            </label>
-            <input
-              className={
-                tailleTel
-                  ? "input_connexion_tel texte_taille_2"
-                  : "input_connexion texte_taille_2"
-              }
-              onChange={myOnChange}
-              type="password"
-              name="password"
-              placeholder="Mot de passe"
-            ></input>
-          </div>
-          <Link
-            className="mdp_oublie couleur_texte gras texte_taille_1 elements_centre"
-            to="/portail_connexion/mot_de_passe_oublie"
-          >
-            Mot de Passe oublié ?
-          </Link>
+          <input
+            className="input margin_auto"
+            onChange={myOnChange}
+            type="password"
+            name="password"
+            placeholder="Mot de passe..."
+            style={{
+              color: dark ? "var(--wht)" : "var(--blk)",
+              backgroundColor: dark ? "var(--blk)" : "var(--wht)",
+            }}
+          ></input>
 
+          <div className="remember_mdp_oublie_line elements_centre margin_auto">
+            <div className="remember element_centre ligne">
+              <input
+                className="checkbox"
+                type="checkbox"
+                checked={remember}
+                onChange={(e) => onChangeRemember(e)}
+              />
+              <span
+                className="elements_centre"
+                style={{ color: dark ? "var(--wht)" : "var(--blk)" }}
+              >
+                Se souvenir de moi
+              </span>
+            </div>
+
+            <Link
+              className="mdp_oublie texte_taille_1 elements_centre"
+              to="/mot_de_passe_oublie"
+            >
+              Mot de Passe oublié ?
+            </Link>
+          </div>
           <div
-            className={
-              tailleTel
-                ? "btn_connexion bouton_board_empty_tel non_selectionnable"
-                : "btn_connexion bouton_board_empty non_selectionnable"
-            }
+            className="button non_selectionnable margin_auto"
             id="bouton_connexion"
             onClick={(e) => onSubmitForm(e)}
+            style={{ color: dark ? "var(--wht)" : "var(--blk)" }}
           >
             Connexion
           </div>
+          <span
+            className="margin_auto"
+            style={{
+              color: dark ? "var(--wht)" : "var(--blk)",
+            }}
+          >
+            Pas encore de compte ?
+          </span>
+          <Link
+            className="to_inscription texte_taille_1 elements_centre"
+            to="/inscription"
+          >
+            S'inscrire
+          </Link>
           <button
             onClick={(e) => onSubmitForm(e)}
             style={{ visibility: "hidden" }}
@@ -119,7 +165,7 @@ function PageConnexion({ setIsAuth, tailleTel }) {
         </form>
       </div>
 
-      <PiedDePage />
+      <PiedDePage dark={dark} />
     </div>
   );
 }

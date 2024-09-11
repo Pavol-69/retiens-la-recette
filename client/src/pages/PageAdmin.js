@@ -22,6 +22,8 @@ function PageAdmin({
   tailleTel,
   tailleInt1,
   tailleInt2,
+  dark,
+  setDark,
 }) {
   const [myUsers, setMyUsers] = useState([]);
 
@@ -74,6 +76,152 @@ function PageAdmin({
 
   return (
     <div className="relatif">
+      <Bandeau mySize="medium" dark={dark} />
+      <div className="board">
+        <div
+          id="fond_menu_admin"
+          className="grid_admin_col"
+          style={{
+            backgroundColor: `rgb(${dark ? "30,30,30" : "250,250,250"},0.7)`,
+            color: `var(--${dark ? "wht" : "blk"})`,
+            width: tailleTel ? "100%" : !tailleInt1 ? "800px" : "1200px",
+            borderRadius: tailleTel ? "0px" : "20px",
+          }}
+        >
+          <div className="col_admin">
+            <div
+              className="titre_col"
+              style={{
+                fontSize: tailleTel ? "1.2em" : !tailleInt1 ? "1.3em" : "1.5em",
+              }}
+            >
+              Prenom
+            </div>
+            {myUsers.map((user, index) =>
+              user.user_mail !== "paul.valy@gmail.com" ? (
+                <div
+                  className="elm_col"
+                  key={index}
+                  style={{
+                    fontSize: tailleTel
+                      ? "1em"
+                      : !tailleInt1
+                      ? "1.2em"
+                      : "1.4em",
+                  }}
+                >
+                  {user.user_name}
+                </div>
+              ) : null
+            )}
+          </div>
+
+          <div className="col_admin">
+            <div
+              className="titre_col"
+              style={{
+                fontSize: tailleTel ? "1.2em" : !tailleInt1 ? "1.3em" : "1.5em",
+              }}
+            >
+              Nom
+            </div>
+            {myUsers.map((user, index) =>
+              user.user_mail !== "paul.valy@gmail.com" ? (
+                <div
+                  className="elm_col"
+                  key={index}
+                  style={{
+                    fontSize: tailleTel
+                      ? "1em"
+                      : !tailleInt1
+                      ? "1.2em"
+                      : "1.4em",
+                  }}
+                >
+                  {user.user_family_name}
+                </div>
+              ) : null
+            )}
+          </div>
+
+          <div className="col_admin">
+            <div
+              className="titre_col"
+              style={{
+                fontSize: tailleTel ? "1.2em" : !tailleInt1 ? "1.3em" : "1.5em",
+              }}
+            >
+              Pseudo
+            </div>
+            {myUsers.map((user, index) =>
+              user.user_mail !== "paul.valy@gmail.com" ? (
+                <div
+                  className="elm_col"
+                  key={index}
+                  style={{
+                    fontSize: tailleTel
+                      ? "1em"
+                      : !tailleInt1
+                      ? "1.2em"
+                      : "1.4em",
+                  }}
+                >
+                  {user.user_pseudo}
+                </div>
+              ) : null
+            )}
+          </div>
+
+          <div className="col_admin">
+            <div
+              className="titre_col"
+              style={{
+                fontSize: tailleTel ? "1.2em" : !tailleInt1 ? "1.3em" : "1.5em",
+              }}
+            >
+              Rôle
+            </div>
+            {myUsers.map((user, index) =>
+              user.user_mail !== "paul.valy@gmail.com" ? (
+                <div key={index} className="elm_col">
+                  <select
+                    className="select_role"
+                    onChange={(e) => handleChange(e, user.user_id)}
+                    defaultValue={user.user_role}
+                    style={{
+                      backgroundColor: `var(--${dark ? "blk" : "wht"})`,
+                      color: `var(--${dark ? "wht" : "blk"})`,
+                      fontSize: tailleTel
+                        ? "1em"
+                        : !tailleInt1
+                        ? "1.2em"
+                        : "1.4em",
+                      height: tailleTel
+                        ? "30px"
+                        : !tailleInt1
+                        ? "35px"
+                        : "40px",
+                      paddingLeft: tailleTel ? "5px" : "10px",
+                    }}
+                  >
+                    <option value="to_define">A Définir</option>
+                    <option value="rejected">Rejeté</option>
+                    <option value="reader">Lecteur</option>
+                    <option value="writer">Rédacteur</option>
+                    <option value="admin">Administrateur</option>
+                  </select>
+                </div>
+              ) : null
+            )}
+          </div>
+        </div>
+      </div>
+      <MenuAjoutRecette
+        toShow={toShow}
+        setToShow={setToShow}
+        pseudo={pseudo}
+        dark={dark}
+      />
       <BarreNavigation
         isAuth={isAuth}
         setIsAuth={setIsAuth}
@@ -86,90 +234,10 @@ function PageAdmin({
         tailleTel={tailleTel}
         tailleInt1={tailleInt1}
         tailleInt2={tailleInt2}
+        dark={dark}
+        setDark={setDark}
       />
-      <Bandeau mySize="small" />
-      <div className="board">
-        <div id="fond_menu_admin" className="fond_menu">
-          <div
-            className={
-              tailleTel
-                ? "ligne_user_tel ligne souligne gras texte_taille_1"
-                : "ligne_user ligne souligne gras texte_taille_3"
-            }
-          >
-            <div
-              className={
-                tailleTel ? "prenom_user_tel texte_centre" : "prenom_user"
-              }
-            >
-              Prenom
-            </div>
-            <div
-              className={tailleTel ? "nom_user_tel texte_centre" : "nom_user"}
-            >
-              Nom
-            </div>
-            <div
-              className={
-                tailleTel ? "pseudo_user_tel texte_centre" : "pseudo_user"
-              }
-            >
-              Pseudo
-            </div>
-            <div
-              className={tailleTel ? "role_user_tel texte_centre" : "role_user"}
-            >
-              Rôle
-            </div>
-          </div>
-          {myUsers.map((user, index) =>
-            user.user_mail !== "paul.valy@gmail.com" ? (
-              <div
-                className={
-                  tailleTel
-                    ? "ligne_user_tel ligne texte_taille_1"
-                    : "ligne_user ligne gras texte_taille_2"
-                }
-                key={index}
-              >
-                <div
-                  className={
-                    tailleTel ? "prenom_user_tel texte_centre" : "prenom_user"
-                  }
-                >
-                  {user.user_name}
-                </div>
-                <div
-                  className={
-                    tailleTel ? "nom_user_tel texte_centre" : "nom_user"
-                  }
-                >
-                  {user.user_family_name}
-                </div>
-                <div
-                  className={
-                    tailleTel ? "pseudo_user_tel texte_centre" : "pseudo_user"
-                  }
-                >
-                  {user.user_pseudo}
-                </div>
-                <select
-                  onChange={(e) => handleChange(e, user.user_id)}
-                  defaultValue={user.user_role}
-                >
-                  <option value="to_define">A Définir</option>
-                  <option value="rejected">Rejeté</option>
-                  <option value="reader">Lecteur</option>
-                  <option value="writer">Rédacteur</option>
-                  <option value="admin">Administrateur</option>
-                </select>
-              </div>
-            ) : null
-          )}
-        </div>
-      </div>
-      <MenuAjoutRecette toShow={toShow} setToShow={setToShow} pseudo={pseudo} />
-      <PiedDePage />
+      <PiedDePage dark={dark} />
     </div>
   );
 }

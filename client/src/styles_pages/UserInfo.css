@@ -1,0 +1,24 @@
+.grid_user,
+.sub_grid_user {
+  display: grid;
+  grid-template-columns: 1fr;
+  margin: auto;
+}
+
+.grid_user {
+  grid-template-rows: 30px 110px 110px 110px 110px 110px 110px 90px;
+}
+
+.sub_grid_user {
+  grid-template-rows: 35px 70px;
+}
+
+.paquet_bouton {
+  /*Dimensions*/
+  width: 400px;
+}
+
+.pqt_bouton_user {
+  /*Flex*/
+  gap: 20px;
+}

@@ -2,40 +2,60 @@
   /*Position*/
   position: relative;
   top: 100px;
-}
-
-.ligne_user {
-  /*Position*/
-  position: relative;
-  padding: 10px;
-  margin-left: 70px;
-}
-
-.ligne_user_tel {
-  /*Position*/
-  position: relative;
-  padding: 10px;
-  margin-left: 5px;
-}
-
-.prenom_user,
-.nom_user,
-.role_user,
-.pseudo_user {
-  /*Position*/
-  position: relative;
 
   /*Dimensions*/
-  width: 200px;
+  padding-bottom: 20px;
+
+  /*Style*/
+  border: solid 1px var(--main);
 }
 
-.prenom_user_tel,
-.nom_user_tel,
-.role_user_tel,
-.pseudo_user_tel {
+.grid_admin_col {
+  /*Grid*/
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.col_admin {
+  /*Flex*/
+  display: flex;
+  justify-content: top;
+  align-items: left;
+  flex-direction: column;
+}
+
+.titre_col {
+  /*Dimensions*/
+  height: 50px;
+  padding: 0px 10px 0px 10px;
+  margin-bottom: 10px;
+
+  /*Style*/
+  font-weight: bold;
+  border-bottom: solid 1px var(--main);
+
+  /*Flex*/
+  display: flex;
+  align-items: center;
+}
+
+.elm_col {
+  /*Dimensions*/
+  padding: 0px 10px 0px 10px;
+  height: 50px;
+
+  /*Flex*/
+  display: flex;
+  align-items: center;
+}
+
+.select_role {
   /*Position*/
-  position: relative;
+  padding-right: 5px;
 
   /*Dimensions*/
-  width: 90px;
+  border-radius: 20px;
+
+  /*Style*/
+  border: 1px solid var(--main);
 }

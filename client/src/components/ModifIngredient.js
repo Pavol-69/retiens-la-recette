@@ -1,7 +1,9 @@
+// Components
+import PlusIcon from "./PlusIcon";
+
 // CCS
 import "../styles/CSSGeneral.css";
 import "../styles_pages/CreationRecette.css";
-import "../styles/BoutonBoard.css";
 import "../styles/ModifIngredient.css";
 
 // Autre
@@ -15,118 +17,17 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 function ModifIngredient({
-  rct_id,
-  setMyRct,
   defaultValue_ing,
   defaultValue_section,
-  setChangingIngredients,
   myBoard,
   tailleTel,
+  dark,
 }) {
   const [myInfo, setMyInfo] = useState({
     rct_ing: defaultValue_ing,
     rct_section_ing: defaultValue_section,
   });
   const [mySupprBool, setMySupprBool] = useState(false);
-
-  function ouvertureModif(myBool) {
-    if (myBool) {
-      myBoard.style.left = "0px";
-    } else {
-      myBoard.style.left = "100vw";
-    }
-  }
-
-  async function updateRecipeDb(mySectionIngList, myIngList) {
-    try {
-      const response = await fetch("/recipe/updateRecipeIngredients", {
-        method: "Post",
-        headers: {
-          rct_id: rct_id,
-          "content-type": "application/json",
-          token: localStorage.token,
-        },
-
-        body: JSON.stringify({
-          rct_id: rct_id,
-          rct_section_ing: mySectionIngList,
-          rct_ing: myIngList,
-        }),
-      });
-
-      const parseRes = await response.json();
-
-      if (parseRes) {
-        toast.success("Recette mise à jour avec succès");
-        return true;
-      } else {
-        toast.error(parseRes);
-        return false;
-      }
-    } catch (err) {
-      console.error(err.message);
-    }
-  }
-
-  function annuler(e) {
-    e.preventDefault();
-    ouvertureModif(false);
-    setChangingIngredients(false);
-  }
-
-  function onSubmitValider(e) {
-    e.preventDefault();
-    // Enregistrement de toutes nos nouvelles données
-
-    let k = 0;
-    let myIngList = [];
-    let mySectionIngList = [];
-    let myField = document.getElementById("field_sections");
-    mySectionIngList.push(["no_section", 1]);
-
-    for (let i = 0; i < myField.childNodes.length; i++) {
-      let myNode = myField.childNodes[i];
-      // Sections
-      if (i > 0) {
-        mySectionIngList.push([
-          myNode.childNodes[0].childNodes[3].value,
-          i + 1,
-        ]);
-        myNode = myNode.childNodes[1];
-      } else {
-        myNode = myNode.childNodes[0];
-      }
-
-      // Ingrédients
-      for (let j = 0; j < myNode.childNodes.length; j++) {
-        let mySubNode = myNode.childNodes[j];
-        k++;
-        myIngList.push([
-          mySubNode.childNodes[0].childNodes[3].value,
-          mySubNode.childNodes[0].childNodes[4].value,
-          mySubNode.childNodes[0].childNodes[5].value,
-          i + 1,
-          k,
-        ]);
-      }
-    }
-
-    setMyInfo((prev) => ({
-      ...prev,
-      rct_ing: myIngList,
-      rct_section_ing: mySectionIngList,
-    }));
-
-    if (updateRecipeDb(mySectionIngList, myIngList)) {
-      setMyRct((prev) => ({
-        ...prev,
-        rct_section_ing: mySectionIngList,
-        rct_ing: myIngList,
-      }));
-      ouvertureModif(false);
-      setChangingIngredients(false);
-    }
-  }
 
   function ajoutSection(e) {
     e.preventDefault();
@@ -213,6 +114,7 @@ function ModifIngredient({
 
         // Récupération des éléments sous forme de variable
         const myDrag = e.target.parentNode.parentNode;
+
         let myField = "";
         if (isSection) {
           myField = myDrag.parentNode;
@@ -225,14 +127,22 @@ function ModifIngredient({
         let myOldClass = myDrag.className;
         myDrag.className = "drag";
 
+        // Pour conserver la largeur
+        let myOldWidth = myDrag.offsetWidth;
+        myDrag.style.width = myOldWidth + "px";
+
         // Création d'une div tempo qui aider l'utilisateur à savoir où est ce qu'il va drop son élément
         let myTempo = document.createElement("div");
         myTempo.className = "ligne_section_tempo";
         myField.appendChild(myTempo);
         myTempo.style.height = myDrag.offsetHeight + "px";
         if (isIngredient) {
-          myTempo.style.marginLeft = "50px";
+          myTempo.style.marginLeft = "30px";
         }
+
+        myTempo.style.backgroundColor = `rgb(${
+          dark ? "30,30,30" : "250,250,250"
+        },0.3)`;
 
         // L'élément pris en drag passe en position absolute pour suivre les mouvements de la souris
         myDrag.style.position = "absolute";
@@ -291,7 +201,7 @@ function ModifIngredient({
         }
 
         if (myTopList.length === 0) {
-          myTempo.style.width = myDrag.offsetWidth + "px";
+          myTempo.style.width = myDrag.offsetWidth + 10 + "px";
         }
 
         // Future position de l'élément drag, par rapport aux éléments fixe de la liste qu'on vient d'enregistrer
@@ -304,20 +214,21 @@ function ModifIngredient({
 
           // on repositionne l'élément drag par rapport à la souris afin qu'on est l'impression qu'on ait sélectionné le milieu du bloc de saisie
           if (isIngredient) {
-            myDrag.style.left = myX - 71 + "px";
+            myDrag.style.left = myX - 54 + "px";
           } else {
-            myDrag.style.left = myX - 31 + "px";
+            myDrag.style.left = myX - 34 + "px";
           }
           myDrag.style.top =
-            myY - 31 + myBoard.scrollTop - window.scrollY + "px";
+            myY - 35 + myBoard.scrollTop - window.scrollY + "px";
 
           //On ajuste myY selon le scroll
           myY = myY - window.scrollY;
 
           // Changement de l'animation de la poubelle quand on passe dessus
           if (
-            myY > maPoubelle.offsetTop &&
-            myY < maPoubelle.offsetTop + maPoubelle.offsetHeight &&
+            myY + myBoard.scrollTop > maPoubelle.offsetTop &&
+            myY + myBoard.scrollTop <
+              maPoubelle.offsetTop + maPoubelle.offsetHeight &&
             myX > maPoubelle.offsetLeft &&
             myX < maPoubelle.offsetLeft + maPoubelle.offsetWidth
           ) {
@@ -379,11 +290,9 @@ function ModifIngredient({
 
           // Suppression de myDrag si myPosition = -3, sinon on met à jour tout le reste
           if (
-            myY > maPoubelle.offsetTop + myBoard.scrollTop &&
-            myY <
-              maPoubelle.offsetTop +
-                maPoubelle.offsetHeight +
-                myBoard.scrollTop &&
+            myY + myBoard.scrollTop > maPoubelle.offsetTop &&
+            myY + myBoard.scrollTop <
+              maPoubelle.offsetTop + maPoubelle.offsetHeight &&
             myX > maPoubelle.offsetLeft &&
             myX < maPoubelle.offsetLeft + maPoubelle.offsetWidth
           ) {
@@ -399,7 +308,7 @@ function ModifIngredient({
                 myTopList[myTopList.length - 1].after(myDrag);
               } else if (myPosition === -3) {
                 myField.appendChild(myDrag);
-              } else {
+              } else if (myTopList.length > 0) {
                 myTopList[myPosition].before(myDrag);
               }
             }
@@ -407,16 +316,18 @@ function ModifIngredient({
             if (isIngredient) {
               if (myPosition === -1) {
                 // Si première position mais que le compartiment "no_section" est vide, il faut le mettre dedans plutôt que "avant le premier élément"
-                if (myField.childNodes[0].childNodes.length > 0) {
+                if (myField.childNodes[0].childNodes[0].childNodes > 1) {
                   myTopList[0].before(myDrag);
                 } else {
-                  myField.childNodes[0].childNodes[1].appendChild(myDrag);
+                  myField.childNodes[0].childNodes[0].appendChild(myDrag);
                 }
               } else if (myPosition === -2) {
                 // Si le dernier élément est une section, il faut mettre l'ingrédient dedans et non pas en dernière position
+
                 if (
-                  myTopList[myTopList.length - 1].childNodes[0].className ===
-                  "ligne_section"
+                  myTopList[
+                    myTopList.length - 1
+                  ].childNodes[0].className.indexOf("ligne_section_ing") > -1
                 ) {
                   myTopList[myTopList.length - 1].childNodes[1].appendChild(
                     myDrag
@@ -430,13 +341,15 @@ function ModifIngredient({
                 // Dans le cas où on veut le mettre à la fin d'une section, c'est que l'élément suivant est une section, donc appendChild à l'élément n-1
                 // Attention à l'élément 0, particulier car non présent dans myTopList
                 if (
-                  myTopList[myPosition].childNodes[0].className ===
-                    "ligne_section" &&
+                  myTopList[myPosition].childNodes[0].className.indexOf(
+                    "ligne_section_ing"
+                  ) > -1 &&
                   myPosition > 0
                 ) {
                   if (
-                    myTopList[myPosition - 1].childNodes[0].className ===
-                    "ligne_section"
+                    myTopList[myPosition - 1].childNodes[0].className.indexOf(
+                      "ligne_section_ing"
+                    ) > -1
                   ) {
                     myTopList[myPosition - 1].childNodes[1].appendChild(myDrag);
                   } else {
@@ -475,59 +388,79 @@ function ModifIngredient({
 
   return (
     <div
-      className="menu_modif elements_centre"
-      style={{ width: tailleTel ? "400px" : null }}
-      //onSubmit={(e) => onSubmitValider(e)}
+      className="grid_modif grid_modif_ing"
+      style={{ width: `${tailleTel ? "400" : "800"}px` }}
     >
-      <div className="titre_modif texte_centre">Liste ingrédients</div>
-      <div className="elements_centre">
+      <div
+        className="titre_mdf"
+        style={{ color: `var(--${dark ? "wht" : "blk"})` }}
+      >
+        Liste ingrédients
+      </div>
+      <div className="ctn_btn_dnd elements_centre">
         <div
-          className={
-            tailleTel
-              ? "paquet_btn_ing bouton_board_tel texte_centre non_selectionnable"
-              : "paquet_btn_ing bouton_board texte_centre non_selectionnable"
-          }
+          className="button"
+          style={{ gap: "5px", color: `var(--${dark ? "wht" : "blk"})` }}
           onClick={(e) => ajoutSection(e)}
         >
-          Ajouter une section
+          <PlusIcon dark={dark} />
+          <span>Section</span>
         </div>
         <div
-          className={
-            tailleTel
-              ? "paquet_btn_ing bouton_board_tel texte_centre non_selectionnable"
-              : "paquet_btn_ing bouton_board texte_centre non_selectionnable"
-          }
+          className="button"
+          style={{ gap: "5px", color: `var(--${dark ? "wht" : "blk"})` }}
           onClick={(e) => ajoutIngredient(e)}
         >
-          Ajouter un ingrédient
+          <PlusIcon dark={dark} />
+          <span>Ingrédient</span>
         </div>
-        <div id="icone_poubelle">
-          <FontAwesomeIcon
-            id="icone_poubelle_img"
-            icon={faTrash}
-            bounce={mySupprBool}
-            style={{ color: "#000000" }}
-          />
+        <div
+          id="icone_poubelle"
+          className="elements_centre"
+          style={{ backgroundColor: `var(--${dark ? "blk" : "wht"})` }}
+        >
+          <FontAwesomeIcon size="2x" icon={faTrash} bounce={mySupprBool} />
         </div>
       </div>
-      <div id="field_sections" style={{ width: tailleTel ? "400px" : null }}>
+      <div
+        id="field_sections_ing"
+        style={{ width: tailleTel ? "410px" : "800px" }}
+      >
         {myInfo.rct_section_ing.length > 0
           ? myInfo.rct_section_ing.map((section_ing, index) => (
               <div key={"modif_section_ing" + index} className="case">
                 {section_ing[0] !== "no_section" ? (
-                  <div className="ligne_section_ing gras elements_centre">
+                  <div
+                    className="ligne_section_ing gras elements_centre"
+                    style={{
+                      backgroundColor: `var(--${dark ? "blk" : "wht"})`,
+                    }}
+                  >
                     <div className="case_icone_4_fleches elements_centre">
                       <FontAwesomeIcon
-                        size="2x"
+                        size="sm"
                         icon={faArrowsUpDownLeftRight}
-                        style={{ color: "var(--color-text" }}
+                        style={{
+                          color: `var(--main)`,
+                          border: "solid 1px var(--main)",
+                          padding: "3px",
+                          borderRadius: "50px",
+                        }}
                       />
                     </div>
                     <div
                       className="saisie"
                       onMouseDown={(e) => dragDrop(e)}
                     ></div>
-                    <div className="non_select">Section : </div>
+                    <div
+                      className="non_select ligne_section"
+                      style={{
+                        color: `var(--${dark ? "wht" : "blk"})`,
+                        fontSize: tailleTel ? "0.9em" : "1em",
+                      }}
+                    >
+                      Section :{" "}
+                    </div>
                     <input
                       onChange={(e) => myOnChange_section_ing(e)}
                       className={
@@ -539,6 +472,11 @@ function ModifIngredient({
                       value={section_ing[0]}
                       type="text"
                       placeholder="Veuillez renseigner un nom de section"
+                      style={{
+                        backgroundColor: `var(--${dark ? "blk" : "wht"})`,
+                        color: `var(--${dark ? "wht" : "blk"})`,
+                        fontSize: tailleTel ? "0.7em" : "0.8em",
+                      }}
                     ></input>
                   </div>
                 ) : null}
@@ -548,12 +486,24 @@ function ModifIngredient({
                     ? myInfo.rct_ing.map((ing, index) =>
                         ing[3] === section_ing[1] ? (
                           <div key={"modif_ing" + index} className="case">
-                            <div className="ligne_ingredient elements_centre">
+                            <div
+                              className="ligne_ingredient elements_centre"
+                              style={{
+                                backgroundColor: `var(--${
+                                  dark ? "blk" : "wht"
+                                })`,
+                              }}
+                            >
                               <div className="case_icone_4_fleches elements_centre">
                                 <FontAwesomeIcon
-                                  size="2x"
+                                  size="sm"
                                   icon={faArrowsUpDownLeftRight}
-                                  style={{ color: "#000000" }}
+                                  style={{
+                                    color: `var(--main)`,
+                                    border: "solid 1px var(--main)",
+                                    padding: "3px",
+                                    borderRadius: "50px",
+                                  }}
                                 />
                               </div>
                               <div
@@ -561,7 +511,13 @@ function ModifIngredient({
                                 onMouseDown={(e) => dragDrop(e)}
                               ></div>
 
-                              <div className="non_select gras elements_centre">
+                              <div
+                                className="non_select gras elements_centre"
+                                style={{
+                                  color: `var(--${dark ? "wht" : "bkl"})`,
+                                  fontSize: tailleTel ? "0.9em" : "1em",
+                                }}
+                              >
                                 {tailleTel ? "Ing :" : "Ingrédient :"}
                               </div>
                               <input
@@ -570,7 +526,14 @@ function ModifIngredient({
                                 name={"input_ing_qty_" + ing[4] + "_0"}
                                 type="number"
                                 value={ing[0]}
-                                style={{ width: tailleTel ? "30px" : "50px" }}
+                                style={{
+                                  width: tailleTel ? "28px" : "40px",
+                                  backgroundColor: `var(--${
+                                    dark ? "blk" : "wht"
+                                  })`,
+                                  color: `var(--${dark ? "wht" : "blk"})`,
+                                  fontSize: tailleTel ? "0.7em" : "0.8em",
+                                }}
                               ></input>
                               <input
                                 onChange={(e) => myOnChange_ing(e)}
@@ -578,7 +541,14 @@ function ModifIngredient({
                                 name={"input_ing_unit_" + ing[4] + "_1"}
                                 type="text"
                                 value={ing[1]}
-                                style={{ width: tailleTel ? "30px" : "100px" }}
+                                style={{
+                                  width: tailleTel ? "40px" : "55px",
+                                  backgroundColor: `var(--${
+                                    dark ? "blk" : "wht"
+                                  })`,
+                                  color: `var(--${dark ? "wht" : "blk"})`,
+                                  fontSize: tailleTel ? "0.7em" : "0.8em",
+                                }}
                                 placeholder="Unité..."
                               ></input>
                               <input
@@ -588,7 +558,12 @@ function ModifIngredient({
                                 type="text"
                                 value={ing[2]}
                                 style={{
-                                  width: tailleTel ? "150px" : "300px",
+                                  width: tailleTel ? "150px" : "440px",
+                                  backgroundColor: `var(--${
+                                    dark ? "blk" : "wht"
+                                  })`,
+                                  color: `var(--${dark ? "wht" : "blk"})`,
+                                  fontSize: tailleTel ? "0.7em" : "0.8em",
                                 }}
                                 placeholder=" Nom de l'ingrédient..."
                               ></input>
@@ -602,30 +577,7 @@ function ModifIngredient({
             ))
           : null}
       </div>
-      <div className="paquet_boutons">
-        <div
-          className={
-            tailleTel
-              ? "bouton_board_tel non_selectionnable texte_centre"
-              : "bouton_board non_selectionnable"
-          }
-          id="bouton_valider"
-          onClick={(e) => onSubmitValider(e)}
-        >
-          Valider
-        </div>
-        <div
-          className={
-            tailleTel
-              ? "bouton_board_tel non_selectionnable texte_centre"
-              : "bouton_board non_selectionnable"
-          }
-          id="bouton_annuler"
-          onClick={(e) => annuler(e)}
-        >
-          Annuler
-        </div>
-      </div>
+      <div></div>
     </div>
   );
 }

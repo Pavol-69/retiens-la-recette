@@ -18,7 +18,6 @@ router.get("/userInfos", authorization, async (req, res) => {
 
 router.get("/allUsersInfos", authorization, async (req, res) => {
   try {
-    console.log("tota");
     const user = await pool.query("SELECT * FROM users");
     res.json(user);
   } catch (err) {
@@ -134,6 +133,22 @@ router.post("/updateInfos", authorization, async (req, res) => {
         req.user,
       ]);
     }
+
+    res.json(true);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json("Erreur serveur.");
+  }
+});
+
+router.post("/userDark", authorization, async (req, res) => {
+  try {
+    await pool.query(
+      `UPDATE users SET user_dark=${
+        req.body.dark ? "TRUE" : "FALSE"
+      } where user_id=$1`,
+      [req.user]
+    );
 
     res.json(true);
   } catch (err) {

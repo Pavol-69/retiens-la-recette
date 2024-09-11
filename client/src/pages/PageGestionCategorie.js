@@ -3,11 +3,11 @@ import BarreNavigation from "../components/BarreNavigation";
 import PiedDePage from "../components/PiedDePage";
 import MenuAjoutRecette from "../components/MenuAjoutRecette";
 import ModifCat from "../components/ModifCat";
+import Bandeau from "../components/Bandeau";
 
 // CSS
 import "../styles/CSSGeneral.css";
 import "../styles_pages/GestionCategorie.css";
-import Bandeau from "../components/Bandeau";
 
 // Autre
 import React, { useState, useEffect } from "react";
@@ -25,6 +25,8 @@ function PageGestionCategorie({
   tailleTel,
   tailleInt1,
   tailleInt2,
+  dark,
+  setDark,
 }) {
   const [myName, setMyName] = useState("");
   const [oldName, setOldName] = useState("");
@@ -150,27 +152,31 @@ function PageGestionCategorie({
         tailleTel={tailleTel}
         tailleInt1={tailleInt1}
         tailleInt2={tailleInt2}
+        dark={dark}
+        setDark={setDark}
       />
-      <Bandeau mySize="medium" />
+      <Bandeau mySize="medium" dark={dark} />
       <div className="board">
-        <form
-          className="form_categorie elements_centre colonne couleur_texte"
-          onSubmit={(e) => onSubmitAjouter(e)}
-        >
-          <div className="titre_modif texte_centre">Gestion des Catégories</div>
+        <form className="grid_cat" onSubmit={(e) => onSubmitAjouter(e)}>
+          <div className="titre_cat">Gestion des Catégories</div>
           <div
-            className={
+            className={`${
               tailleTel || (tailleInt2 && !tailleInt1 && !tailleOrdi)
-                ? "colonne ligne_info_cat elements_centre"
-                : "ligne ligne_info_cat"
-            }
+                ? "colonne"
+                : "ligne"
+            } elements_centre lgn2`}
           >
             <input
               onChange={(e) => myOnChange(e)}
-              className={tailleTel ? "input_modif_tel" : "input_modif"}
-              style={{ marginBottom: "25px" }}
+              style={{
+                width: tailleTel ? "350px" : "800px",
+                backgroundColor: `var(--${dark ? "blk" : "wht"})`,
+                color: `var(--${dark ? "wht" : "blk"})`,
+                left: "0px",
+              }}
               type="text"
               name="cat_name"
+              className="input"
               placeholder={
                 tailleTel
                   ? "Nouvelle catégorie..."
@@ -179,13 +185,9 @@ function PageGestionCategorie({
               value={myName}
             ></input>
             <div
-              className={
-                tailleTel
-                  ? "bouton_board_tel non_selectionnable"
-                  : "bouton_board non_selectionnable"
-              }
-              id="bouton_valider"
+              className="button"
               onClick={(e) => onSubmitAjouter(e)}
+              style={{ color: `var(--${dark ? "wht" : "blk"})` }}
             >
               Ajouter
             </div>
@@ -193,19 +195,24 @@ function PageGestionCategorie({
           <div className="paquet_cat elements_centre">
             {catList.length > 0
               ? catList.map((cat, index) => (
-                  <div key={index} className="categorie elements_centre gras">
-                    <div
-                      className="categorie_nom_admin"
-                      onClick={(e) => changeCatName(e)}
-                    >
-                      {cat}
-                    </div>
+                  <div
+                    key={index}
+                    className="cat_admin elements_centre"
+                    style={{
+                      color: `var(--${dark ? "wht" : "blk"})`,
+                    }}
+                  >
+                    <div onClick={(e) => changeCatName(e)}>{cat}</div>
                     <div
                       id={cat}
-                      className="cat_fermer"
+                      className="cat_fermer elements_centre"
                       onClick={(e) => SupprCat(e)}
+                      style={{
+                        color: `var(--${dark ? "wht" : "blk"})`,
+                      }}
                     >
-                      x
+                      <div className="bras1" />
+                      <div className="bras2" />
                     </div>
                   </div>
                 ))
@@ -216,6 +223,9 @@ function PageGestionCategorie({
       <div
         id={boardModificationName}
         className="board_menu_suppl elements_centre"
+        style={{
+          backgroundColor: `rgb(${dark ? "30, 30, 30" : "250, 250, 250"}, 0.5)`,
+        }}
       >
         <ModifCat
           oldName={oldName}
@@ -225,10 +235,17 @@ function PageGestionCategorie({
           myBoard={myBoard}
           setCatList={setCatList}
           tailleTel={tailleTel}
+          dark={dark}
         />
       </div>
-      <MenuAjoutRecette toShow={toShow} setToShow={setToShow} pseudo={pseudo} />
-      <PiedDePage />
+      <MenuAjoutRecette
+        toShow={toShow}
+        setToShow={setToShow}
+        pseudo={pseudo}
+        tailleTel={tailleTel}
+        dark={dark}
+      />
+      <PiedDePage dark={dark} />
     </div>
   );
 }

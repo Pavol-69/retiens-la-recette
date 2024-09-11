@@ -11,7 +11,7 @@ router.post("/inscription", validInfo, async (req, res) => {
     // Création de la  bdd users si elle n'existe pas
 
     await pool.query(
-      "CREATE TABLE IF NOT EXISTS users(user_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(), user_name VARCHAR(255) NOT NULL, user_family_name VARCHAR(255) NOT NULL, user_pseudo VARCHAR(255) NOT NULL, user_mail VARCHAR(255) NOT NULL, user_password VARCHAR(255) NOT NULL, user_role VARCHAR(255) NOT NULL)"
+      "CREATE TABLE IF NOT EXISTS users(user_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(), user_name VARCHAR(255) NOT NULL, user_family_name VARCHAR(255) NOT NULL, user_pseudo VARCHAR(255) NOT NULL, user_mail VARCHAR(255) NOT NULL, user_password VARCHAR(255) NOT NULL, user_role VARCHAR(255) NOT NULL, user_dark BOOLEAN DEFAULT FALSE)"
     );
 
     // Récupérationd des variables
@@ -67,11 +67,11 @@ router.post("/inscription", validInfo, async (req, res) => {
 router.post("/connexion", validInfo, async (req, res) => {
   try {
     // Récupération des données
-    const { mail, password } = req.body;
+    const { mail, password, remember } = req.body;
 
     // Création de la  bdd users si elle n'existe pas
     await pool.query(
-      "CREATE TABLE IF NOT EXISTS users(user_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(), user_name VARCHAR(255) NOT NULL, user_family_name VARCHAR(255) NOT NULL, user_pseudo VARCHAR(255) NOT NULL, user_mail VARCHAR(255) NOT NULL, user_password VARCHAR(255) NOT NULL, user_role VARCHAR(255) NOT NULL)"
+      "CREATE TABLE IF NOT EXISTS users(user_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(), user_name VARCHAR(255) NOT NULL, user_family_name VARCHAR(255) NOT NULL, user_pseudo VARCHAR(255) NOT NULL, user_mail VARCHAR(255) NOT NULL, user_password VARCHAR(255) NOT NULL, user_role VARCHAR(255) NOT NULL, user_dark BOOLEAN DEFAULT FALSE)"
     );
 
     // Vérification de si l'utilisateur existe bel et bien
@@ -94,8 +94,12 @@ router.post("/connexion", validInfo, async (req, res) => {
     }
 
     // Envoi token
-    const token = jwtGenerator(user.rows[0].user_id, "3hr");
-    res.json({ token });
+    const token = jwtGenerator(
+      user.rows[0].user_id,
+      remember ? "30days" : "3hr"
+    );
+    const userDark = user.rows[0].user_dark;
+    res.json({ token, userDark });
   } catch (err) {
     console.log(err.message);
     res.status(500).json("Erreur serveur");

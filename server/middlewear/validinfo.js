@@ -26,10 +26,12 @@ module.exports = (req, res, next) => {
         .json(
           "Votre nom et votre prénom ne doivent pas contenir ni de chiffre, ni de caractère spécial."
         );
-    } else if (pseudo.length < 6) {
+    } else if (pseudo.length < 6 || pseudo.length > 16) {
       return res
         .status(401)
-        .json("Votre pseudo doit faire au minimum 6 caractères.");
+        .json(
+          "La longueur de votre pseudo doit être comprise entre 6 et 16 caractères."
+        );
     } else if (!validEmail(mail)) {
       return res.status(401).json("Adresse mail invalide.");
     } else if (password !== password2) {

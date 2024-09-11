@@ -14,14 +14,13 @@ import PageMdpOublie from "./pages/PageMdpOublie";
 import PageResetPassword from "./pages/PageResetPassword";
 import PageGestionCategorie from "./pages/PageGestionCategorie";
 import PageNonAccepte from "./pages/PageNonAccepte";
-import PagePortail from "./pages/PagePortail";
 
 //CSS
 import "./styles/CSSGeneral.css";
 import "./styles/index.css";
 
 // Autre
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -34,14 +33,28 @@ function App() {
   const [pseudo, setPseudo] = useState("");
   const [nbNotif, setNbNotif] = useState(0);
   const [toShow, setToShow] = useState(false);
+  const [dark, setDark] = useState(true);
   const tailleOrdi = useMediaQuery({ query: "(min-width: 1475px)" });
   const tailleInt1 = useMediaQuery({
-    query: "(min-width: 1275px)",
+    query: "(min-width: 1330px)",
   });
   const tailleInt2 = useMediaQuery({
-    query: "(min-width: 851px)",
+    query: "(min-width: 891px)",
   });
-  const tailleTel = useMediaQuery({ query: "(max-width: 850px)" });
+  const tailleTel = useMediaQuery({ query: "(max-width: 990px)" });
+
+  const body = document.body;
+  //body.style.transition = "0.5s";
+
+  useEffect(() => {
+    //setDark(true);
+  }, []);
+
+  if (dark) {
+    body.style.backgroundColor = "var(--blk)";
+  } else {
+    body.style.backgroundColor = "var(--wht)";
+  }
 
   /*if (!isLoadedInfo || !isLoadedAuth) {
     return null;
@@ -80,6 +93,8 @@ function App() {
                     tailleTel={tailleTel}
                     tailleInt1={tailleInt1}
                     tailleInt2={tailleInt2}
+                    dark={dark}
+                    setDark={setDark}
                   />
                 }
               />
@@ -98,6 +113,8 @@ function App() {
                     tailleTel={tailleTel}
                     tailleInt1={tailleInt1}
                     tailleInt2={tailleInt2}
+                    dark={dark}
+                    setDark={setDark}
                   />
                 }
               />
@@ -117,6 +134,8 @@ function App() {
                     tailleTel={tailleTel}
                     tailleInt1={tailleInt1}
                     tailleInt2={tailleInt2}
+                    dark={dark}
+                    setDark={setDark}
                   />
                 }
               />
@@ -140,6 +159,8 @@ function App() {
                       tailleTel={tailleTel}
                       tailleInt1={tailleInt1}
                       tailleInt2={tailleInt2}
+                      dark={dark}
+                      setDark={setDark}
                     />
                   }
                 />
@@ -163,6 +184,8 @@ function App() {
                       tailleTel={tailleTel}
                       tailleInt1={tailleInt1}
                       tailleInt2={tailleInt2}
+                      dark={dark}
+                      setDark={setDark}
                     />
                   }
                 />
@@ -182,6 +205,7 @@ function App() {
                     pseudo={pseudo}
                     role={role}
                     toShow={toShow}
+                    dark={dark}
                     setToShow={setToShow}
                     tailleOrdi={tailleOrdi}
                     tailleTel={tailleTel}
@@ -193,45 +217,58 @@ function App() {
             </Route>
           </Route>
 
-          <Route
-            path="/portail_connexion"
-            element={<PublicRoute isAuth={isAuth} />}
-          >
+          <Route path="/" element={<PublicRoute isAuth={isAuth} />}>
             <Route
-              path="/portail_connexion"
+              path="/inscription"
               element={
-                <PagePortail
+                <PageInscription
+                  setIsAuth={setIsAuth}
                   tailleOrdi={tailleOrdi}
                   tailleTel={tailleTel}
                   tailleInt1={tailleInt1}
                   tailleInt2={tailleInt2}
+                  dark={dark}
                 />
-              }
-            />
-            <Route
-              path="/portail_connexion/inscription"
-              element={
-                <PageInscription setIsAuth={setIsAuth} tailleTel={tailleTel} />
               }
             />
 
             <Route
-              path="/portail_connexion/connexion"
+              path="/connexion"
               element={
-                <PageConnexion setIsAuth={setIsAuth} tailleTel={tailleTel} />
+                <PageConnexion
+                  setIsAuth={setIsAuth}
+                  tailleOrdi={tailleOrdi}
+                  tailleTel={tailleTel}
+                  tailleInt1={tailleInt1}
+                  tailleInt2={tailleInt2}
+                  dark={dark}
+                  setDark={setDark}
+                />
               }
             />
             <Route
-              path="/portail_connexion/mot_de_passe_oublie"
-              element={<PageMdpOublie tailleTel={tailleTel} />}
+              path="/mot_de_passe_oublie"
+              element={
+                <PageMdpOublie
+                  tailleOrdi={tailleOrdi}
+                  tailleTel={tailleTel}
+                  tailleInt1={tailleInt1}
+                  tailleInt2={tailleInt2}
+                  dark={dark}
+                />
+              }
             />
             <Route
-              path="/portail_connexion/reinitialisation_mot_de_passe/:resetKey"
+              path="/reinitialisation_mot_de_passe/:resetKey"
               element={
                 <PageResetPassword
-                  tailleTel={tailleTel}
                   isAuth={isAuth}
                   setIsAuth={setIsAuth}
+                  tailleOrdi={tailleOrdi}
+                  tailleTel={tailleTel}
+                  tailleInt1={tailleInt1}
+                  tailleInt2={tailleInt2}
+                  dark={dark}
                 />
               }
             />

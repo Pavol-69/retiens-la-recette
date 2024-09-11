@@ -85,7 +85,7 @@ function PrivateRoute({ isAuth, setIsAuth, setPseudo, setRole, setNbNotif }) {
   }
 
   if (myCheckAuth && myCheckInfo && myCheckNotif) {
-    return isAuth ? <Outlet /> : <Navigate to="/portail_connexion" />;
+    return isAuth ? <Outlet /> : <Navigate to="/connexion" />;
   } else {
     return null;
   }

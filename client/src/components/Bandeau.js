@@ -1,5 +1,4 @@
 // CSS
-import "../styles/BarreNavigation.css";
 import "../styles/Bandeau.css";
 
 // Data
@@ -8,7 +7,7 @@ import bandeau from "../datas/Bandeau.jpg";
 // Autres
 import React, { useState, useEffect } from "react";
 
-function Bandeau({ mySize }) {
+function Bandeau({ mySize, dark }) {
   const [myHeightImg, setMyHeightImg] = useState("");
   const [myTopDegrade, setMyTopDegrade] = useState("");
   const [myHeightDegrade, setMyHeightDegrade] = useState("");
@@ -16,31 +15,36 @@ function Bandeau({ mySize }) {
   useEffect(() => {
     if (mySize === "small") {
       setMyHeightImg("150px");
-      setMyTopDegrade("100px");
       setMyHeightDegrade("50px");
     } else if (mySize === "medium") {
-      setMyHeightImg("350px");
-      setMyTopDegrade("250px");
-      setMyHeightDegrade("100px");
+      setMyHeightImg("700px");
+      setMyHeightDegrade("450px");
     } else if (mySize === "big") {
       setMyHeightImg("800px");
-      setMyTopDegrade("450px");
       setMyHeightDegrade("350px");
     }
   }, []);
 
   return (
     <div className="non_selectionnable">
-      <img
-        alt="fond"
-        className="img_bandeau non_selectionnable"
-        src={bandeau}
-        style={{ height: myHeightImg }}
-      />
       <div
-        className="degrade"
-        style={{ height: myTopDegrade, top: myHeightDegrade }}
-      ></div>
+        alt="fond"
+        className="div_bandeau non_selectionnable"
+        style={{ height: myHeightImg }}
+      >
+        <div className="blur_bandeau" />
+        <img className="img_bandeau non_selectionnable" src={bandeau} />
+        <div
+          className="degrade"
+          style={{
+            height: myHeightDegrade,
+            background: dark
+              ? "linear-gradient(rgb(30, 30, 30, 0.3), var(--blk))"
+              : "linear-gradient(rgb(250, 250, 250, 0), var(--wht))",
+            transition: "0.5s",
+          }}
+        ></div>
+      </div>
     </div>
   );
 }

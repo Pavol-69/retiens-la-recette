@@ -1,26 +1,33 @@
 @import url("https://fonts.googleapis.com/css2?family=Satisfy&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;400&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+/*@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;400&display=swap");*/
 @import url("https://fonts.googleapis.com/css2?family=Cookie&family=Manrope:wght@200&family=Montserrat:wght@100&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Caveat&family=Cookie&family=Manrope:wght@200&family=Montserrat:wght@100&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Fredericka+the+Great&display=swap");
 
 html {
   /*Variables Générales*/
-  --main-color: rgb(30, 30, 30);
-  --main-color-transparent: rgb(30, 30, 30, 0.7);
-  --color-text: rgb(220, 220, 220);
+  --main: rgb(189, 127, 64);
+  --main-hv: rgb(162, 105, 43);
+  --blk: rgb(30, 30, 30);
+  --wht: rgb(250, 250, 250);
+  --red: rgb(200, 0, 0);
+  --blk-tpr: rgb(30, 30, 30, 0.7);
   --color-background: rgb(255, 135, 135, 0.2);
   --color-hover: rgb(150, 150, 150);
   --color-shadow: rgb(100, 100, 100);
 }
 
-/*<link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Cookie&family=Manrope:wght@200&family=Montserrat:wght@100&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Caveat&family=Cookie&family=Manrope:wght@200&family=Montserrat:wght@100&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Satisfy&display=swap" rel="stylesheet">*/
+.checkbox {
+  /*Dimensions*/
+  width: 20px;
+  height: 100%;
+  margin: 0px 5px 0px 0px;
+
+  /*Style*/
+  accent-color: var(--main);
+  cursor: pointer;
+}
 
 .relatif {
   /*Position*/
@@ -37,7 +44,7 @@ html {
   /*Position*/
   position: static;
   z-index: -1;
-  padding-top: 50px;
+  padding-top: 70px;
   padding-bottom: 25px;
 
   /*Dimensions*/
@@ -71,12 +78,88 @@ html {
   height: 100%;
 
   /*Style*/
-  background-color: rgb(255, 255, 255, 0.5);
   backdrop-filter: blur(8px);
+
+  /*Grille*/
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 0px auto;
 
   /*Autre*/
   transition: 0.5s;
+  overflow-x: hidden;
   overflow-y: scroll;
+}
+
+.input {
+  /*Position*/
+  position: relative;
+  padding-left: 30px;
+  left: -17px;
+
+  /*Dimensions*/
+  height: 50px;
+  width: 100%;
+
+  /*Style*/
+  border: solid 1px var(--main);
+  border-radius: 35px;
+  outline-color: var(--main);
+  outline-width: 1px;
+
+  /*Texte*/
+  font-size: 1.3em;
+}
+
+.button {
+  /*Dimensions*/
+  height: 50px;
+  width: 180px;
+
+  /*Style*/
+  border-radius: 30px;
+
+  /*Texte*/
+  font-size: 1.5em;
+  text-align: center;
+}
+
+.button_tel {
+  /*Dimensions*/
+  height: 40px;
+  width: 150px;
+
+  /*Style*/
+  border-radius: 30px;
+
+  /*Texte*/
+  font-size: 1.3em;
+}
+
+.button,
+.button_tel {
+  /*Style*/
+  background-color: var(--main);
+  cursor: pointer;
+
+  /*Flex*/
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /*Texte*/
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+
+  /*Animation*/
+  transition: 0.3s;
+}
+
+.button:hover,
+.button_tel:hover {
+  /*Style*/
+  background-color: var(--main-hv);
 }
 
 .elements_centre {
@@ -127,10 +210,12 @@ html {
   flex-direction: row;
 }
 
-.paquet_cat {
+.paquet_cat,
+.pqt_boutons {
   /*Flex*/
   display: flex;
   flex-wrap: wrap;
+  gap: 10px;
 
   /*Dimensions*/
   width: 100%;
@@ -161,29 +246,9 @@ html {
   transition: 0.2s;
 }
 
-.cat_fermer {
-  /*Position*/
-  position: absolute;
-  top: -10px;
-  right: 5px;
-
-  /*Texte*/
-  font-size: 1.5em;
-
-  /*Style*/
-  color: var(--color-text);
-
-  /*Hoover*/
-  transition: 0.2s;
-}
-
-.cat_fermer:hover,
 .categorie_nom_admin:hover {
-  /*Texte*/
-  font-size: 1.6em;
-
   /*Style*/
-  cursor: pointer;
+  color: var(--red);
 }
 
 .colonne {
@@ -224,6 +289,16 @@ html {
   font-size: 2.2em;
 }
 
+.texte_taille_1,
+.texte_taille_2,
+.texte_taille_3,
+.texte_taille_4,
+.texte_taille_5 {
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
 .texte_centre {
   /*Position*/
   text-align: center;
@@ -232,4 +307,14 @@ html {
 
 .couleur_texte {
   color: var(--color-text);
+}
+
+.margin_auto {
+  /*Position*/
+  margin: auto;
+}
+
+.link {
+  /*Style*/
+  text-decoration: none;
 }

@@ -1,7 +1,6 @@
 // CCS
 import "../styles/CSSGeneral.css";
 import "../styles_pages/CreationRecette.css";
-import "../styles/BoutonBoard.css";
 import "../styles/SupprRecette.css";
 
 // Autre
@@ -9,7 +8,7 @@ import { toast } from "react-toastify";
 import { Navigate } from "react-router-dom";
 import React, { useState } from "react";
 
-function SupprRecette({ rct_id, setChangingDelete, myBoard, tailleTel }) {
+function SupprRecette({ rct_id, setChangingDelete, myBoard, dark }) {
   const [toDelete, setToDelete] = useState(false);
 
   async function deleteRecipe() {
@@ -66,33 +65,31 @@ function SupprRecette({ rct_id, setChangingDelete, myBoard, tailleTel }) {
   ) : (
     <form
       id="menu_modif_categorie"
-      className="menu_modif elements_centre"
+      className="elements_centre"
       onSubmit={(e) => onSubmitValider(e)}
     >
-      <div className="titre_modif texte_centre">
+      <div></div>
+      <div
+        className="titre_modif texte_centre"
+        style={{ color: `var(--${dark ? "wht" : "blk"})` }}
+      >
         Êtes-vous sûrs de vouloir supprimer cette recette ?
       </div>
 
-      <div className="paquet_boutons">
+      <div className="paquet_boutons elements_centre">
         <div
-          className={
-            tailleTel
-              ? "bouton_board_tel non_selectionnable"
-              : "bouton_board non_selectionnable"
-          }
+          className="button non_selectionnable"
           id="bouton_valider"
           onClick={(e) => onSubmitValider(e)}
+          style={{ color: `var(--${dark ? "wht" : "blk"})` }}
         >
           Valider
         </div>
         <div
-          className={
-            tailleTel
-              ? "bouton_board_tel non_selectionnable"
-              : "bouton_board non_selectionnable"
-          }
+          className="button non_selectionnable"
           id="bouton_annuler"
           onClick={(e) => annuler(e)}
+          style={{ color: `var(--${dark ? "wht" : "blk"})` }}
         >
           Annuler
         </div>

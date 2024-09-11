@@ -1,11 +1,10 @@
 // Components
-import BarreNavigation from "../components/BarreNavigation";
 import PiedDePage from "../components/PiedDePage";
+import Titre from "../components/Titre";
 import Bandeau from "../components/Bandeau";
 
 // CSS
 import "../styles/CSSGeneral.css";
-import "../styles/BoutonBoard.css";
 import "../styles/Form.css";
 import "../styles_pages/Connexion.css";
 
@@ -13,7 +12,14 @@ import "../styles_pages/Connexion.css";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 
-function PageInscription({ setIsAuth, tailleTel }) {
+function PageInscription({
+  setIsAuth,
+  tailleOrdi,
+  tailleTel,
+  tailleInt1,
+  tailleInt2,
+  dark,
+}) {
   const [myInfo, setMyInfo] = useState({
     name: "",
     family_name: "",
@@ -67,124 +73,92 @@ function PageInscription({ setIsAuth, tailleTel }) {
 
   return (
     <div className="relatif">
-      <Bandeau mySize="big" />
-      <div className="board">
+      <Bandeau mySize="medium" dark={dark} />
+      <div className="grid_inscription board">
+        <Titre
+          tailleTel={tailleTel}
+          tailleInt1={tailleInt1}
+          tailleInt2={tailleInt2}
+          tailleOrdi={tailleOrdi}
+        />
         <form
-          className="form_renseignement elements_centre colonne"
+          className="grid_inscription_form margin_auto"
           onSubmit={(e) => onSubmitForm(e)}
+          style={{ width: tailleTel ? "350px" : "450px" }}
         >
-          <div className="renseignement_connexion elements_centre colonne">
-            <label className="label_connexion couleur_texte gras texte_taille_3 texte_centre">
-              Prénom
-            </label>
-            <input
-              onChange={(e) => myOnChange(e)}
-              type="text"
-              name="name"
-              placeholder="Prénom à renseigner"
-              className={
-                tailleTel
-                  ? "input_connexion_tel texte_taille_2"
-                  : "input_connexion texte_taille_2"
-              }
-            ></input>
-          </div>
+          <input
+            onChange={(e) => myOnChange(e)}
+            type="text"
+            name="name"
+            placeholder="Prénom..."
+            className="input margin_auto"
+            style={{
+              color: dark ? "var(--wht)" : "var(--blk)",
+              backgroundColor: dark ? "var(--blk)" : "var(--wht)",
+            }}
+          />
+          <input
+            onChange={(e) => myOnChange(e)}
+            type="text"
+            name="family_name"
+            placeholder="Nom..."
+            className="input margin_auto"
+            style={{
+              color: dark ? "var(--wht)" : "var(--blk)",
+              backgroundColor: dark ? "var(--blk)" : "var(--wht)",
+            }}
+          />
 
-          <div className="renseignement_connexion elements_centre colonne">
-            <label className="label_connexion couleur_texte gras texte_taille_3 texte_centre">
-              Nom
-            </label>
-            <input
-              onChange={(e) => myOnChange(e)}
-              type="text"
-              name="family_name"
-              placeholder="Nom à renseigner"
-              className={
-                tailleTel
-                  ? "input_connexion_tel texte_taille_2"
-                  : "input_connexion texte_taille_2"
-              }
-            ></input>
-          </div>
+          <input
+            onChange={(e) => myOnChange(e)}
+            type="text"
+            name="pseudo"
+            placeholder="Pseudo..."
+            className="input margin_auto"
+            style={{
+              color: dark ? "var(--wht)" : "var(--blk)",
+              backgroundColor: dark ? "var(--blk)" : "var(--wht)",
+            }}
+          />
 
-          <div className="renseignement_connexion elements_centre colonne">
-            <label className="label_connexion couleur_texte gras texte_taille_3 texte_centre">
-              Pseudo
-            </label>
-            <input
-              onChange={(e) => myOnChange(e)}
-              type="text"
-              name="pseudo"
-              placeholder="Pseudo à renseigner"
-              className={
-                tailleTel
-                  ? "input_connexion_tel texte_taille_2"
-                  : "input_connexion texte_taille_2"
-              }
-            ></input>
-          </div>
+          <input
+            onChange={(e) => myOnChange(e)}
+            type="mail"
+            name="mail"
+            placeholder="Adresse mail..."
+            className="input margin_auto"
+            style={{
+              color: dark ? "var(--wht)" : "var(--blk)",
+              backgroundColor: dark ? "var(--blk)" : "var(--wht)",
+            }}
+          />
 
-          <div className="renseignement_connexion elements_centre colonne">
-            <label className="label_connexion couleur_texte gras texte_taille_3 texte_centre">
-              Adresse Mail
-            </label>
-            <input
-              onChange={(e) => myOnChange(e)}
-              type="mail"
-              name="mail"
-              placeholder="Adresse mail à renseigner"
-              className={
-                tailleTel
-                  ? "input_connexion_tel texte_taille_2"
-                  : "input_connexion texte_taille_2"
-              }
-            ></input>
-          </div>
+          <input
+            onChange={(e) => myOnChange(e)}
+            type="password"
+            name="password1"
+            placeholder="Mot de passe..."
+            className="input margin_auto"
+            style={{
+              color: dark ? "var(--wht)" : "var(--blk)",
+              backgroundColor: dark ? "var(--blk)" : "var(--wht)",
+            }}
+          />
 
-          <div className="renseignement_connexion elements_centre colonne">
-            <label className="label_connexion couleur_texte gras texte_taille_3 texte_centre">
-              Mot de passe, première saisie
-            </label>
-            <input
-              onChange={(e) => myOnChange(e)}
-              type="password"
-              name="password1"
-              placeholder="Mot de passe"
-              className={
-                tailleTel
-                  ? "input_connexion_tel texte_taille_2"
-                  : "input_connexion texte_taille_2"
-              }
-            ></input>
-          </div>
-
-          <div className="renseignement_connexion elements_centre colonne">
-            <label className="label_connexion couleur_texte gras texte_taille_3 texte_centre">
-              Mot de passe, seconde saisie
-            </label>
-            <input
-              onChange={(e) => myOnChange(e)}
-              type="password"
-              name="password2"
-              placeholder={
-                tailleTel
-                  ? "Mot de passe, seconde saisie"
-                  : "Veuillez renseigner votre mot de passe à nouveau"
-              }
-              className={
-                tailleTel
-                  ? "input_connexion_tel texte_taille_2"
-                  : "input_connexion texte_taille_2"
-              }
-            ></input>
-          </div>
+          <input
+            onChange={(e) => myOnChange(e)}
+            type="password"
+            name="password2"
+            placeholder="Confirmation mot de passe..."
+            className="input margin_auto"
+            style={{
+              color: dark ? "var(--wht)" : "var(--blk)",
+              backgroundColor: dark ? "var(--blk)" : "var(--wht)",
+            }}
+          />
 
           <div
-            className={
-              tailleTel
-                ? "btn_connexion bouton_board_tel non_selectionnable"
-                : "btn_connexion bouton_board non_selectionnable"
-            }
+            className="button margin_auto"
             id="bouton_inscription"
             onClick={(e) => onSubmitForm(e)}
           >
@@ -197,7 +171,7 @@ function PageInscription({ setIsAuth, tailleTel }) {
         </form>
       </div>
 
-      <PiedDePage />
+      <PiedDePage dark={dark} />
     </div>
   );
 }

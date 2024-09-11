@@ -1,0 +1,107 @@
+.dl_mega_ctn {
+  /*Dimensions*/
+  width: 70px;
+  height: 100%;
+
+  /*Style*/
+  cursor: pointer;
+
+  /*Animation*/
+  transition: 0.5s;
+}
+
+.dl_mega_ctn:hover {
+  /*Style*/
+  background-color: rgba(48, 48, 48);
+}
+
+.dl_ctn {
+  /*Position*/
+  position: relative;
+  /*right: 200px;
+  top: 17px;*/
+
+  /*Dimensions*/
+  width: 36px;
+  height: 36px;
+
+  /*Style*/
+  border-bottom: solid 1px var(--wht);
+
+  /*Autre*/
+  overflow: hidden;
+}
+
+.sun_ctn,
+.ray_ctn {
+  /*Position*/
+  position: absolute;
+
+  /*Dimensions*/
+  width: 100%;
+  height: 100%;
+}
+
+.sun_ctn {
+  /*Style*/
+  color: var(--wht);
+}
+
+.sun_bdy {
+  /*Position*/
+  position: absolute;
+
+  /*Dimensions*/
+  height: 16px;
+  width: 16px;
+  border-radius: 10px;
+
+  /*Style*/
+  background-color: var(--wht);
+}
+
+.ray {
+  /*Position*/
+  position: absolute;
+  top: 2px;
+
+  /*Dimensions*/
+  width: 2px;
+  height: 5px;
+  border-radius: 2px;
+
+  /*Style*/
+  background-color: var(--wht);
+}
+
+.leve {
+  animation: anim_leve 0.4s forwards ease-in-out;
+}
+
+.couche {
+  animation: anim_couche 0.4s forwards ease-in-out;
+}
+
+@keyframes anim_leve {
+  0% {
+    opacity: 0;
+    bottom: -40px;
+  }
+
+  100% {
+    opacity: 1;
+    bottom: 0px;
+  }
+}
+
+@keyframes anim_couche {
+  0% {
+    opacity: 1;
+    bottom: 0px;
+  }
+
+  100% {
+    opacity: 0;
+    bottom: -40px;
+  }
+}

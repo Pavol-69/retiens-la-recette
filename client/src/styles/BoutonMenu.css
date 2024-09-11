@@ -14,39 +14,19 @@
   padding-right: 20px;
 
   /*Style*/
-  color: var(--color-text);
+  color: var(--wht);
   text-decoration: none;
   cursor: pointer;
 
-  /*Hover*/
+  /*Animation*/
   transition: 0.5s;
 
   /*Texte*/
   font-family: "Roboto";
-  font-size: 1.1em;
+  font-size: 1.3em;
   font-weight: bold;
 }
 
-.bouton_menu::after {
-  /*Position*/
-  position: absolute;
-  top: 42px;
-
-  /*Dimensions*/
-  height: 2px;
-  width: 0px;
-
-  /*Style*/
-  background-color: var(--color-text);
-
-  /*Gégéral*/
-  content: "";
-
-  /*Hover*/
-  transition: 0.3s;
-}
-
-.bouton_menu:hover:after {
-  width: 100%;
-  content: "";
+.bouton_menu:hover {
+  background-color: rgba(48, 48, 48);
 }

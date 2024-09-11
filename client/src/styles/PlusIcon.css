@@ -1,0 +1,27 @@
+.plus_btn_ctn {
+  /*Position*/
+  position: relative;
+
+  /*Dimesions*/
+  height: 20px;
+  width: 20px;
+
+  /*Style*/
+  border: solid 1px;
+  border-radius: 20px;
+}
+
+.plus_trait_1,
+.plus_trait_2 {
+  /*Position*/
+  position: absolute;
+
+  /*Dimensions*/
+  height: 12px;
+  width: 2px;
+}
+
+.plus_trait_2 {
+  /*Transformation*/
+  transform: rotate(90deg);
+}

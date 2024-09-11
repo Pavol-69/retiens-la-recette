@@ -136,7 +136,9 @@
   margin: 15px;
 
   /*Style*/
-  background-color: var(--main-color);
+  color: var(--wht);
+  background-color: var(--blk);
+  border: solid 1px var(--main);
   border-radius: 10px;
 }
 
@@ -145,7 +147,6 @@
   position: relative;
   margin-top: 20px;
   margin-bottom: 20px;
-
   align-items: flex-start;
 
   /*Dimensions*/
@@ -155,10 +156,12 @@
 
 .nb_personne {
   /*Dimensions*/
-  height: 50px;
+
+  padding: 0px 10px 0px 10px;
 
   /*Texte*/
   font-size: 2em;
+  word-break: break-all;
 }
 
 #icone_modifier_nb_personne {
@@ -192,7 +195,6 @@
 
   /*Texte*/
   font-family: Cookie;
-  color: var(--color-text);
   font-size: 3em;
 }
 
@@ -213,6 +215,7 @@
 .titre_recette {
   /*Position*/
   position: relative;
+  z-index: -1;
 
   /*Dimensions*/
   margin-left: 10px;
@@ -222,18 +225,10 @@
 
   /*Texte*/
   font-family: Cookie;
-  color: var(--color-text);
+  color: var(--main);
 }
 
 #signature {
-  /*Position*/
-  position: absolute;
-  top: 65px;
-  right: 50px;
-
-  /*Dimensions*/
-  width: 300px;
-
   /*Texte*/
   text-align: right;
   font-size: 0.4em;
@@ -245,10 +240,8 @@
 
   /*Texte*/
   font-family: Cookie;
-  color: var(--main-color);
-  font-weight: bold;
+
   font-size: 3em;
-  text-shadow: var(--color-text) 1px 1px 0px;
 }
 
 .point_step {
@@ -273,8 +266,7 @@
 
   /*Style*/
   border-radius: 5px;
-  color: var(--color-text);
-  text-shadow: 1px 1px 2px var(--main-color);
+  color: var(--wht);
 
   /*Texte*/
   font-size: 1.2em;
@@ -283,8 +275,7 @@
 .liste_categorie {
   /*Position*/
   position: relative;
-
-  /*Dimensions*/
+  z-index: -1;
 }
 
 #image_board {
@@ -353,6 +344,7 @@
   /*Style*/
   background-color: rgb(255, 255, 255, 0.6);
   border-radius: 10px;
+  color: var(--blk);
 }
 
 .carrousel_left,
@@ -402,11 +394,8 @@
   margin-left: 30px;
   margin-right: 30px;
   border-radius: 10px;
-  border: solid;
+  border: solid 1px var(--main);
   border-width: 1px;
-
-  /*Style*/
-  background-color: rgba(255, 255, 255, 0.8);
 
   /*Autre*/
   transition: all 1s;
@@ -435,12 +424,65 @@
   filter: drop-shadow(0 0 0.75rem);
 }
 
-.modif_recette {
+.pqt_btn_mdf {
+  /*Position*/
+  position: sticky;
+  top: 20px;
+  margin-left: auto;
+  margin-right: 20px;
+  z-index: 20;
+
   /*Dimensions*/
-  width: 1000px;
+  height: 40px;
+  width: auto;
+
+  /*Flex*/
+  gap: 20px;
 }
 
-.modif_recette_tel {
+.top_mdf_btn {
+  /*Position*/
+  position: relative;
+
   /*Dimensions*/
-  width: 400px;
+  padding: 0px 15px 0px 15px;
+  height: 100%;
+
+  /*Style*/
+  color: var(--main);
+  cursor: pointer;
+  border: solid 1px var(--main);
+  border-radius: 20px;
+
+  /*Animation*/
+  transition: 0.3s;
+}
+
+.top_mdf_btn_light {
+  /*Style*/
+  background-color: var(--wht);
+}
+
+.top_mdf_btn_light:hover {
+  /*Style*/
+  background-color: rgb(230, 230, 230);
+}
+
+.top_mdf_btn_dark {
+  /*Style*/
+  background-color: var(--blk);
+}
+
+.top_mdf_btn_dark:hover {
+  /*Style*/
+  background-color: rgb(48, 48, 48);
+}
+
+.pqt_cat_mdf {
+  /*Position*/
+  margin: 15px 0px 15px 0px;
+
+  /*Flex*/
+  flex-wrap: wrap;
+  gap: 10px;
 }

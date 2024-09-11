@@ -1,23 +1,69 @@
 // Components
 import BoutonLien from "./BoutonMenu";
+import Burger from "./Burger";
+import Notif from "./Notif";
+import DarkLight from "./DarkLight";
 
 // CSS
-import "../styles/BarreNavigation.css";
+import "../styles/BarreNavigation.scss";
 import "../styles/BoutonMenu.css";
+import "../styles/CSSGeneral.css";
 
 // Autres
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "font-awesome/css/font-awesome.min.css";
-import {
-  faChevronDown,
-  faBars,
-  faUser,
-  faPlus,
-  faPenToSquare,
-} from "@fortawesome/free-solid-svg-icons";
+import { faChevronDown, faUser } from "@fortawesome/free-solid-svg-icons";
+import styled, { css, keyframes } from "styled-components";
+
+const delayAnim = 150;
+
+const Anim = styled.div`
+  ${(props) =>
+    props.$isLoaded
+      ? props.$menu
+        ? css`
+            animation: ${props.$top > -1
+                ? rctShow(props.$top)
+                : `show_${props.$type}`}
+              0.4s forwards ease-in-out;
+            animation-delay: ${(props.$nb - 1) * delayAnim}ms;
+          `
+        : css`
+            animation: ${props.$top > -1
+                ? rctHide(props.$top)
+                : `hide_${props.$type}`}
+              0.4s forwards ease-in-out;
+            animation-delay: ${(props.$nbTot - props.$nb) * delayAnim}ms;
+          `
+      : null}
+`;
+
+const rctShow = (top) => keyframes`
+  0% {
+    opacity: 0;
+    top: -65px;
+  }
+
+  100% {
+    opacity: 1;
+    top: ${top}px;
+  }
+`;
+
+const rctHide = (top) => keyframes`
+  0% {
+    opacity: 1;
+    top: ${top}px;
+  }
+
+  100% {
+    opacity: 0;
+    top: -65px;
+  }
+`;
 
 function BarreNavigation({
   isAuth,
@@ -36,12 +82,36 @@ function BarreNavigation({
   setModify,
   ouvertureModif,
   setChangingDelete,
+  dark,
+  setDark,
 }) {
   const [shaking, setShaking] = useState(false);
   const [shakingRct, setShakingRct] = useState(false);
   const [menuUser, setMenuUser] = useState(false);
-  const [menuHeader, setMenuHeader] = useState(false);
   const [menuRecette, setMenuRecette] = useState(false);
+  const [menuBurger, setMenuBurger] = useState(false);
+  const [isLoadedUser, setIsLoadedUser] = useState(false);
+  const [isLoadedRct, setIsLoadedRct] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    if (menuUser) {
+      setIsLoadedUser(true);
+    }
+    if (menuBurger) {
+      setIsLoaded(true);
+    }
+    if (menuRecette) {
+      setIsLoadedRct(true);
+    }
+    if (!tailleTel) {
+      setMenuBurger(false);
+      setIsLoaded(false);
+    } else {
+      setMenuRecette(false);
+      setIsLoadedRct(false);
+    }
+  }, [menuUser, menuBurger, menuRecette, tailleTel]);
 
   const logout = (e) => {
     e.preventDefault();
@@ -60,14 +130,8 @@ function BarreNavigation({
       setMenuUser(false);
     } else {
       setMenuUser(true);
-    }
-  }
-
-  function affichageMenuHeader(e) {
-    if (menuHeader) {
-      setMenuHeader(false);
-    } else {
-      setMenuHeader(true);
+      setMenuBurger(false);
+      setMenuRecette(false);
     }
   }
 
@@ -76,6 +140,8 @@ function BarreNavigation({
       setMenuRecette(false);
     } else {
       setMenuRecette(true);
+      setMenuUser(false);
+      setMenuBurger(false);
     }
   }
 
@@ -93,256 +159,349 @@ function BarreNavigation({
     setChangingDelete(true);
   }
 
+  function onBlurEvent(e) {
+    e.preventDefault();
+    setMenuBurger(false);
+    setMenuUser(false);
+    setMenuRecette(false);
+  }
+
   return isAuth && role !== "rejected" && role !== "to_define" ? (
-    <header>
-      {tailleTel ? (
-        <div className="bandeau_header align_gauche">
-          {allowToModify || role === "admin" ? (
-            <div>
-              <FontAwesomeIcon
-                onClick={(e) => {
-                  affichageMenuHeader(e);
-                }}
-                id="menu_header"
-                icon={faBars}
-              />
-              {allowToModify ? (
-                <FontAwesomeIcon
-                  onClick={(e) => modifyButton(e)}
-                  id="btn_icon_modify"
-                  icon={faPenToSquare}
-                  style={{ color: "var(--color-text)" }}
+    <div
+      className="non_selectionnable"
+      onBlur={(e) => onBlurEvent(e)}
+      tabIndex={0}
+    >
+      <header>
+        {tailleTel ? (
+          <div className="bandeau_header">
+            {role !== "reader" ? (
+              <div
+                onClick={(e) => setMenuUser(false)}
+                style={{ width: "80px", position: "absolute" }}
+              >
+                <Burger
+                  tailleTel={tailleTel}
+                  menuBurger={menuBurger}
+                  setMenuBurger={setMenuBurger}
+                  isLoaded={isLoaded}
                 />
-              ) : null}
-
-              {nbNotif > 0 && role === "admin" ? (
-                <div className="notif gras" style={{ left: "34px" }}>
-                  {nbNotif}
-                </div>
-              ) : null}
-              {menuHeader ? (
-                <div
-                  className="menu_deroulant elements_centre colonne"
-                  id="id_menu_user"
-                  onBlur={(e) => {
-                    setMenuHeader(false);
-                  }}
-                >
-                  <div
-                    className="bouton_menu_deroulant elements_centre texte_taille_1 gras"
-                    onClick={(e) => newRecipe(e)}
-                  >
-                    Nouvelle Recette
-                  </div>
-                  {allowToModify ? (
-                    <div
-                      className="bouton_menu_deroulant elements_centre texte_taille_1 gras"
-                      onClick={(e) => SuppressionRecette(e)}
-                    >
-                      Supprimer Recette
-                    </div>
-                  ) : null}
-
-                  {role === "admin" ? (
-                    <div>
-                      <Link
-                        className="bouton_menu_deroulant elements_centre texte_taille_1 gras"
-                        to="/admin"
-                      >
-                        {"Admin (" + nbNotif + ")"}
-                      </Link>
-                      <Link
-                        className="bouton_menu_deroulant elements_centre texte_taille_1 gras"
-                        to="/categorie"
-                      >
-                        Catégories
-                      </Link>
-                    </div>
-                  ) : null}
-                </div>
-              ) : null}
-            </div>
-          ) : role === "writer" ? (
-            <FontAwesomeIcon
-              onClick={(e) => newRecipe(e)}
-              id="btn_plus"
-              icon={faPlus}
-            />
-          ) : null}
-          <div
-            className="centre_mobile elements_centre"
-            style={{
-              left: allowToModify
-                ? "100px"
-                : role === "writer" || role === "admin"
-                ? "50px"
-                : "0px",
-            }}
-          >
-            <div style={{ height: "100%", width: "170px" }}>
-              <BoutonLien myLink={"/"} myTitle={"Accueil"} />
+                {nbNotif > 0 && role === "admin" && !menuBurger ? (
+                  <Notif nbNotif={nbNotif} />
+                ) : null}
+              </div>
+            ) : null}
+            <div className="centre_mobile elements_centre">
+              <div style={{ height: "100%", width: "170px" }}>
+                <BoutonLien myLink={"/"} myTitle={"Accueil"} />
+              </div>
             </div>
           </div>
-        </div>
-      ) : (
-        <div
-          className={
-            tailleOrdi
-              ? "bandeau_header elements_centre"
-              : "bandeau_header align_gauche"
-          }
-        >
-          <BoutonLien myLink={"/"} myTitle={"Accueil"} />
-          {tailleInt2 && !tailleInt1 && allowToModify ? (
-            <div
-              className="ligne elements_centre"
-              onMouseEnter={() => setShakingRct(true)}
-              onMouseLeave={() => setShakingRct(false)}
-              onClick={(e) => {
-                affichageMenuRct(e);
-              }}
-            >
-              <div className="bouton_menu">
-                Recette
-                <div className="fleche_menu_user">
-                  <FontAwesomeIcon
-                    icon={faChevronDown}
-                    bounce={shakingRct}
-                    size="lg"
-                    style={{ color: "var(--color-text)" }}
-                  />
-                </div>
-              </div>
-              {menuRecette ? (
+        ) : (
+          <div
+            className={
+              tailleOrdi || tailleInt1
+                ? "bandeau_header elements_centre"
+                : "bandeau_header align_gauche"
+            }
+          >
+            <BoutonLien myLink={"/"} myTitle={"Accueil"} />
+            {allowToModify ? (
+              <div style={{ height: "100%" }}>
                 <div
-                  className="menu_deroulant elements_centre colonne"
-                  id="id_menu_user"
-                  onBlur={(e) => {
+                  id="id_menu_recette"
+                  className="bouton_menu ligne"
+                  onMouseEnter={() => setShakingRct(true)}
+                  onMouseLeave={() => setShakingRct(false)}
+                  onClick={(e) => {
+                    affichageMenuRct(e);
+                  }}
+                >
+                  <div>Recette</div>
+                  <div className="fleche_menu_user">
+                    <FontAwesomeIcon
+                      icon={faChevronDown}
+                      bounce={shakingRct}
+                      size="lg"
+                      style={{ color: "var(--wht)" }}
+                    />
+                  </div>
+                </div>
+                <Anim
+                  className="bouton_menu_deroulant texte_taille_2 padding_btn_hd"
+                  $nb={3}
+                  $nbTot={3}
+                  $isLoaded={isLoadedRct}
+                  $menu={menuRecette}
+                  $type="rct"
+                  $top={192}
+                  style={{
+                    top: isLoadedRct
+                      ? menuRecette
+                        ? "-65px"
+                        : "192px"
+                      : "-65px",
+                  }}
+                  onClick={(e) => {
+                    SuppressionRecette(e);
                     setMenuRecette(false);
                   }}
                 >
-                  <div
-                    className="bouton_menu_deroulant elements_centre texte_taille_1 gras"
-                    onClick={(e) => modifyButton(e)}
-                  >
-                    Modifier Recette
-                  </div>
-                  <div
-                    className="bouton_menu_deroulant elements_centre texte_taille_1 gras"
-                    onClick={(e) => newRecipe(e)}
-                  >
-                    Nouvelle Recette
-                  </div>
-                  <div
-                    className="bouton_menu_deroulant elements_centre texte_taille_1 gras"
-                    onClick={(e) => SuppressionRecette(e)}
-                  >
-                    Supprimer Recette
-                  </div>
+                  Supprimer Recette
+                </Anim>
+                <Anim
+                  className="bouton_menu_deroulant texte_taille_2 padding_btn_hd"
+                  $nb={2}
+                  $nbTot={3}
+                  $isLoaded={isLoadedRct}
+                  $menu={menuRecette}
+                  $type="rct"
+                  $top={131}
+                  style={{
+                    top: isLoadedRct
+                      ? menuRecette
+                        ? "-65px"
+                        : "131px"
+                      : "-65px",
+                  }}
+                  onClick={(e) => {
+                    modifyButton(e);
+                    setMenuRecette(false);
+                  }}
+                >
+                  Modifier Recette
+                </Anim>
+                <Anim
+                  id="btn_deco"
+                  className="bouton_menu_deroulant texte_taille_2 padding_btn_hd"
+                  $nb={1}
+                  $nbTot={3}
+                  $isLoaded={isLoadedRct}
+                  $menu={menuRecette}
+                  $type="rct"
+                  $top={70}
+                  style={{
+                    top: isLoadedRct
+                      ? menuRecette
+                        ? "-65px"
+                        : "70px"
+                      : "-65px",
+                  }}
+                  onClick={(e) => {
+                    newRecipe(e);
+                    setMenuRecette(false);
+                  }}
+                >
+                  Nouvelle Recette
+                </Anim>
+              </div>
+            ) : (role === "admin" || role === "writer") && !allowToModify ? (
+              <div
+                className="bouton_menu"
+                style={{ height: "100%" }}
+                onClick={(e) => newRecipe(e)}
+              >
+                Nouvelle Recette
+              </div>
+            ) : null}
+
+            {role === "admin" ? (
+              <div className="paquet_btn_admin">
+                <BoutonLien myLink={"/admin"} myTitle={"Admin"} />
+                {nbNotif > 0 ? <Notif nbNotif={nbNotif} /> : null}
+              </div>
+            ) : null}
+            {role === "admin" ? (
+              <BoutonLien
+                myLink={"/categorie"}
+                myTitle={"Gestion des Catégories"}
+              />
+            ) : null}
+          </div>
+        )}
+        <div className="paquet_user_dl elements_centre ligne">
+          <div className="ctn_dl elements_centre">
+            <DarkLight dark={dark} setDark={setDark} />
+          </div>
+          <div
+            className="paquet_user elements_centre ligne"
+            onClick={(e) => {
+              affichageMenuUser(e);
+            }}
+          >
+            <FontAwesomeIcon
+              className="icone_user"
+              size={tailleTel ? "2x" : "2x"}
+              icon={faUser}
+              style={{ color: "var(--wht)" }}
+            />
+            {!tailleTel ? (
+              <div className="ligne">
+                <div className="user texte_taille_2 non_selectionnable">
+                  {pseudo}
                 </div>
-              ) : null}
-            </div>
-          ) : (role === "admin" || role === "writer") && !allowToModify ? (
-            <div
-              className="bouton_menu"
-              style={{ height: "100%" }}
+              </div>
+            ) : null}
+          </div>
+        </div>
+      </header>
+
+      <div>
+        <Anim
+          id="btn_deco"
+          className="bouton_menu_deroulant texte_taille_2 padding_btn_hd"
+          $nb={2}
+          $nbTot={2}
+          $isLoaded={isLoadedUser}
+          $menu={menuUser}
+          $type="user"
+          $top={-1}
+          style={{
+            right: isLoadedUser ? (menuUser ? "-220px" : "0px") : "-220px",
+          }}
+          onClick={(e) => logout(e)}
+        >
+          Déconnexion
+        </Anim>
+        <Anim
+          id="btn_info"
+          className="bouton_menu_deroulant texte_taille_2"
+          $nb={1}
+          $nbTot={2}
+          $isLoaded={isLoadedUser}
+          $menu={menuUser}
+          $type="user"
+          $top={-1}
+          style={{
+            right: isLoadedUser ? (menuUser ? "-220px" : "0px") : "-220px",
+          }}
+        >
+          <Link
+            className="link link_menu padding_btn_hd elements_centre"
+            to="/mes-infos"
+            style={{ height: "100%" }}
+          >
+            Mes informations
+          </Link>
+        </Anim>
+        {role !== "reader" ? (
+          <div
+            id="id_menu_burger"
+            onBlur={(e) => {
+              setMenuBurger(false);
+            }}
+          >
+            {allowToModify ? (
+              <div>
+                <Anim
+                  className="bouton_menu_deroulant texte_taille_2 padding_btn_hd"
+                  $nb={role === "admin" ? 5 : 3}
+                  $nbTot={role === "admin" ? 5 : 3}
+                  $isLoaded={isLoaded}
+                  $menu={menuBurger}
+                  $type="burger"
+                  $top={-1}
+                  style={{
+                    left: isLoaded ? (menuBurger ? "-220px" : "0px") : "-220px",
+                    top: role === "admin" ? "314px" : "194px",
+                  }}
+                  onClick={(e) => {
+                    SuppressionRecette(e);
+                    setMenuBurger(false);
+                  }}
+                >
+                  Supprimer recette
+                </Anim>
+                <Anim
+                  className="bouton_menu_deroulant texte_taille_2 padding_btn_hd"
+                  $nb={role === "admin" ? 4 : 2}
+                  $nbTot={role === "admin" ? 5 : 3}
+                  $isLoaded={isLoaded}
+                  $menu={menuBurger}
+                  $type="burger"
+                  $top={-1}
+                  style={{
+                    left: isLoaded ? (menuBurger ? "-220px" : "0px") : "-220px",
+                    top: role === "admin" ? "253px" : "133px",
+                  }}
+                  onClick={(e) => {
+                    modifyButton(e);
+                    setMenuBurger(false);
+                  }}
+                >
+                  Modifier recette
+                </Anim>
+              </div>
+            ) : null}
+            <Anim
+              className="bouton_menu_deroulant texte_taille_2 padding_btn_hd"
+              $nb={role === "admin" ? 3 : 1}
+              $nbTot={
+                allowToModify
+                  ? role === "admin"
+                    ? 5
+                    : 3
+                  : role === "admin"
+                  ? 3
+                  : 1
+              }
+              $isLoaded={isLoaded}
+              $menu={menuBurger}
+              $type="burger"
+              $top={-1}
+              style={{
+                left: isLoaded ? (menuBurger ? "-220px" : "0px") : "-220px",
+                top: role === "admin" ? "192px" : "70px",
+              }}
               onClick={(e) => newRecipe(e)}
             >
               Nouvelle Recette
-            </div>
-          ) : allowToModify ? (
-            <div className="ligne" style={{ height: "100%" }}>
-              <div className="bouton_menu" onClick={(e) => newRecipe(e)}>
-                Nouvelle Recette
+            </Anim>
+            {role === "admin" ? (
+              <div>
+                <Anim
+                  id="btn_cat"
+                  className="bouton_menu_deroulant texte_taille_2"
+                  $nb={2}
+                  $nbTot={allowToModify ? 5 : 3}
+                  $isLoaded={isLoaded}
+                  $menu={menuBurger}
+                  $type="burger"
+                  $top={-1}
+                  style={{
+                    left: isLoaded ? (menuBurger ? "-220px" : "0px") : "-220px",
+                  }}
+                >
+                  <Link
+                    className="link link_menu padding_btn_hd"
+                    to="/categorie"
+                  >
+                    Catégories
+                  </Link>
+                </Anim>
+                <Anim
+                  id="btn_admin"
+                  className="bouton_menu_deroulant texte_taille_2"
+                  $nb={1}
+                  $nbTot={allowToModify ? 5 : 3}
+                  $isLoaded={isLoaded}
+                  $menu={menuBurger}
+                  $type="burger"
+                  $top={-1}
+                  style={{
+                    left: isLoaded ? (menuBurger ? "-220px" : "0px") : "-220px",
+                  }}
+                >
+                  <Link className="link link_menu padding_btn_hd" to="/admin">
+                    {`Admin ( ${nbNotif} )`}
+                  </Link>
+                </Anim>
               </div>
-              <div className="bouton_menu" onClick={(e) => modifyButton(e)}>
-                Modifier la recette
-              </div>
-              <div
-                className="bouton_menu"
-                onClick={(e) => SuppressionRecette(e)}
-              >
-                Supprimer la recette
-              </div>
-            </div>
-          ) : null}
-
-          {role === "admin" ? (
-            <div className="paquet_btn_admin">
-              <BoutonLien myLink={"/admin"} myTitle={"Admin"} />
-              {nbNotif > 0 ? (
-                <div className="notif gras" style={{ right: "0px" }}>
-                  {nbNotif}
-                </div>
-              ) : null}
-            </div>
-          ) : null}
-          {role === "admin" ? (
-            <BoutonLien
-              myLink={"/categorie"}
-              myTitle={"Gestion des Catégories"}
-            />
-          ) : null}
-        </div>
-      )}
-
-      <div
-        className="paquet_user elements_centre ligne"
-        style={{
-          right: !tailleTel ? "20px" : "0px",
-        }}
-        onMouseEnter={() => setShaking(true)}
-        onMouseLeave={() => setShaking(false)}
-        onClick={(e) => {
-          affichageMenuUser(e);
-        }}
-      >
-        <FontAwesomeIcon
-          className="icone_user"
-          size={tailleTel ? "2x" : "lg"}
-          icon={faUser}
-          style={{ color: "var(--color-text)" }}
-        />
-        {!tailleTel ? (
-          <div className="ligne">
-            <div className="couleur_texte gras texte_taille_1">{pseudo}</div>
-
-            <div className="fleche_menu_user">
-              <FontAwesomeIcon
-                icon={faChevronDown}
-                bounce={shaking}
-                size="lg"
-                style={{ color: "var(--color-text)" }}
-              />
-            </div>
-          </div>
-        ) : null}
-        {menuUser ? (
-          <div
-            className="menu_deroulant elements_centre colonne"
-            style={{ right: tailleTel ? "0px" : null }}
-            id="id_menu_user"
-            onBlur={(e) => {
-              setMenuUser(false);
-            }}
-          >
-            <Link
-              className="bouton_menu_deroulant elements_centre texte_taille_1 gras"
-              to="/mes-infos"
-            >
-              Mes informations
-            </Link>
-            <Link
-              onClick={(e) => logout(e)}
-              className="bouton_menu_deroulant elements_centre texte_taille_1 gras"
-              to="/"
-            >
-              Déconnexion
-            </Link>
+            ) : null}
           </div>
         ) : null}
       </div>
-    </header>
+    </div>
   ) : (
     <header></header>
   );

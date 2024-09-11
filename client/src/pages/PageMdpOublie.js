@@ -1,6 +1,6 @@
 // Components
 import PiedDePage from "../components/PiedDePage";
-import BarreNavigation from "../components/BarreNavigation";
+import Titre from "../components/Titre";
 import Bandeau from "../components/Bandeau";
 
 // CSS
@@ -11,7 +11,13 @@ import "../styles_pages/Connexion.css";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 
-function PageMdpOublie({ isAuth, setIsAuth, tailleTel }) {
+function PageMdpOublie({
+  tailleOrdi,
+  tailleTel,
+  tailleInt1,
+  tailleInt2,
+  dark,
+}) {
   const [mail, setMail] = useState("");
 
   const onSubmitForm = async (e) => {
@@ -41,52 +47,44 @@ function PageMdpOublie({ isAuth, setIsAuth, tailleTel }) {
 
   return (
     <div className="relatif">
-      <BarreNavigation isAuth={isAuth} setIsAuth={setIsAuth} />
-      <Bandeau mySize={"big"} />
+      <Bandeau mySize={"medium"} dark={dark} />
 
-      <div className="board">
+      <div className="grid_mdp_oublie board">
+        <Titre
+          tailleTel={tailleTel}
+          tailleInt1={tailleInt1}
+          tailleInt2={tailleInt2}
+          tailleOrdi={tailleOrdi}
+        />
+        <div className="txt_mdp_oublie texte_taille_2 texte_centre margin_auto">
+          Merci de renseigner votre e-mail, nous allons réinitialiser votre mot
+          de passe.
+        </div>
         <form
-          className={
-            tailleTel
-              ? "form_renseignement_tel elements_centre colonne"
-              : "form_renseignement elements_centre colonne"
-          }
+          className="grid_mdp_oublie_form margin_auto"
+          style={{ width: tailleTel ? "350px" : "450px" }}
           onSubmit={onSubmitForm}
         >
-          <div className="couleur_texte gras texte_taille_2 texte_centre">
-            Renseignez votre adresse mail afin que nous vous envoyions un mail
-            pour réinitialiser votre mot de passe
-          </div>
           <div className="renseignement_connexion elements_centre colonne">
-            <label className="label_connexion couleur_texte gras texte_taille_3 texte_centre">
-              Adresse Mail
-            </label>
             <input
-              className={
-                tailleTel
-                  ? "input_connexion_tel texte_taille_2"
-                  : "input_connexion texte_taille_2"
-              }
+              className="input margin_auto"
               type="mail"
               name="mail"
-              placeholder="Adresse mail"
+              placeholder="Adresse mail..."
               onChange={myOnChange}
+              style={{
+                color: dark ? "var(--wht)" : "var(--blk)",
+                backgroundColor: dark ? "var(--blk)" : "var(--wht)",
+              }}
             ></input>
           </div>
-          <div
-            onClick={onSubmitForm}
-            className={
-              tailleTel
-                ? "btn_connexion bouton_board_empty_tel non_selectionnable texte_centre"
-                : "btn_connexion bouton_board_empty non_selectionnable"
-            }
-          >
+          <div onClick={onSubmitForm} className="button margin_auto">
             Envoyer Mail
           </div>
         </form>
       </div>
 
-      <PiedDePage />
+      <PiedDePage dark={dark} />
     </div>
   );
 }

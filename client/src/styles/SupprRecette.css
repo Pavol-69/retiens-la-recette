@@ -1,0 +1,15 @@
+#menu_modif_categorie {
+  /*Dimensions*/
+  height: 100%;
+
+  /*Grille*/
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 300px 100px 80px;
+  margin: auto;
+}
+
+.paquet_boutons {
+  /*Flex*/
+  gap: 20px;
+}

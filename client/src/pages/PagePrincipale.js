@@ -3,18 +3,21 @@ import BarreNavigation from "../components/BarreNavigation";
 import PiedDePage from "../components/PiedDePage";
 import MenuAjoutRecette from "../components/MenuAjoutRecette";
 import VignetteRecette from "../components/VignetteRecette";
-import MenuFiltreRecherche from "../components/MenuFiltreRecherche";
 import Bandeau from "../components/Bandeau";
+import Titre from "../components/Titre";
+import CatFiltre from "../components/CatFiltre";
 
 // CSS
 import "../styles/CSSGeneral.css";
 import "../styles_pages/PagePrincipale.css";
-import "../styles/BoutonBoard.css";
 
 // Autre
 import { Link } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import "font-awesome/css/font-awesome.min.css";
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 
 function PagePrincipale({
   isAuth,
@@ -28,12 +31,15 @@ function PagePrincipale({
   tailleTel,
   tailleInt1,
   tailleInt2,
+  dark,
+  setDark,
 }) {
   const [myRctList, setMyRctList] = useState([]);
   const [myFilterList, setMyFilterList] = useState([]);
   const [myFilterBool, setMyFilterBool] = useState(false);
   const [mySearch, setMySearch] = useState("");
   const [mySearchList, setMySearchList] = useState([]);
+  const [isSearching, setIsSearching] = useState(false);
   const boardModificationName = "board_modification";
   const myBoard = document.getElementById(boardModificationName);
 
@@ -79,23 +85,10 @@ function PagePrincipale({
     }
   }
 
-  function ouvertureModif(myBool) {
-    if (myBool) {
-      myBoard.style.left = "0px";
-    } else {
-      myBoard.style.left = "100vw";
-    }
-  }
-
   useEffect(() => {
     getRctList();
     getAllCategories();
   }, []);
-
-  function menuFiltre(e) {
-    ouvertureModif(true);
-    setMyFilterBool(true);
-  }
 
   function rechercher(e) {
     e.preventDefault();
@@ -161,6 +154,155 @@ function PagePrincipale({
 
   return (
     <div className="relatif">
+      <Bandeau mySize="medium" dark={dark} />
+
+      <div className="grid_accueil board elements_centre">
+        <div style={{ opacity: isSearching ? "0" : "1", transition: "0.3s" }}>
+          <Titre
+            tailleTel={tailleTel}
+            tailleInt1={tailleInt1}
+            tailleInt2={tailleInt2}
+            tailleOrdi={tailleOrdi}
+          />
+        </div>
+
+        {isSearching ? <div></div> : <div></div>}
+
+        {isSearching ? (
+          <div></div>
+        ) : (
+          <div className="pqt anim_entry elements_centre">
+            <div
+              className="titre_pqt_vignette elements_centre texte_taille_5 non_selectionnable"
+              style={{ color: dark ? "var(--wht)" : "var(--blk)" }}
+            >
+              Toutes les recettes
+            </div>
+            <div
+              className="trait_pqt_vignette"
+              style={{ backgroundColor: dark ? "var(--wht)" : "var(--blk)" }}
+            />
+          </div>
+        )}
+
+        {myRctList.length && !isSearching > 0 ? (
+          <div className="plage_vignette elements_centre non_selectionnable">
+            {myRctList.map((myRct, index) => (
+              <VignetteRecette
+                key={"list" + index}
+                myId={myRct.rct_id}
+                myName={myRct.rct_name}
+                myImg={myRct.rct_img}
+                dark={dark}
+              />
+            ))}
+          </div>
+        ) : mySearchList.length > 0 && isSearching ? (
+          <div className="plage_vignette elements_centre non_selectionnable">
+            {mySearchList.map((myRct, index) => (
+              <VignetteRecette
+                key={"search" + index}
+                myId={myRct.rct_id}
+                myName={myRct.rct_name}
+                myImg={myRct.rct_img}
+                darl={dark}
+              />
+            ))}
+          </div>
+        ) : null}
+      </div>
+      <div
+        className="ctn_search elements_centre"
+        style={{ top: isSearching ? "150px" : "330px" }}
+      >
+        <form
+          className="elements_centre colonne grid_form"
+          onSubmit={(e) => rechercher(e)}
+          style={{
+            gridTemplateRows: isSearching
+              ? "150px 150px 100px"
+              : "100px 0px 0px",
+            transition: "0.5s",
+          }}
+        >
+          <div
+            className="pqt elements_centre"
+            style={{
+              width: tailleTel
+                ? "350px"
+                : tailleInt2 && !tailleInt1
+                ? "800px"
+                : "1000px",
+              left: "17px",
+            }}
+          >
+            <input
+              className="input"
+              placeholder="Rechercher une recette..."
+              onChange={(e) => myOnChange(e)}
+              onFocus={() => setIsSearching(true)}
+              value={mySearch}
+              style={{
+                color: dark ? "var(--wht)" : "var(--blk)",
+                backgroundColor: dark ? "var(--blk)" : "var(--wht)",
+              }}
+            />
+            <FontAwesomeIcon
+              icon={faMagnifyingGlass}
+              size="2xl"
+              style={{
+                color: dark ? "var(--wht)" : "var(--blk)",
+                position: "absolute",
+                right: "40px",
+              }}
+            />
+          </div>
+
+          {isSearching ? (
+            <div className="ctn_cat elements_centre">
+              {myFilterList.map((cat, i) => (
+                <CatFiltre
+                  key={i}
+                  myFilterList={myFilterList}
+                  setMyFilterList={setMyFilterList}
+                  i={i}
+                  dark={dark}
+                />
+              ))}
+            </div>
+          ) : null}
+
+          {isSearching ? (
+            <div
+              className="btn_recherche anim_entry elements_centre non_selectionnable"
+              style={{ flexWrap: "wrap", rowGap: "30px" }}
+            >
+              <div
+                style={{ color: `var(--${dark ? "wht" : "blk"})` }}
+                className="button"
+                onClick={(e) => rechercher(e)}
+              >
+                Rechercher
+              </div>
+
+              <div
+                style={{ color: `var(--${dark ? "wht" : "blk"})` }}
+                className="button"
+                onClick={(e) => reinitialisation(e)}
+              >
+                Réinitialisation
+              </div>
+            </div>
+          ) : null}
+        </form>
+      </div>
+      <div
+        className="cancel texte_taille_2 elements_centre non_selectionnable"
+        onClick={() => setIsSearching(false)}
+        style={{ right: isSearching ? "20px" : "-200px" }}
+      >
+        Annuler
+      </div>
       <BarreNavigation
         isAuth={isAuth}
         setIsAuth={setIsAuth}
@@ -173,151 +315,21 @@ function PagePrincipale({
         tailleTel={tailleTel}
         tailleInt1={tailleInt1}
         tailleInt2={tailleInt2}
+        dark={dark}
+        setDark={setDark}
       />
-      <Bandeau mySize="big" />
-      <div className="board">
-        <div
-          id="titre_site"
-          className="non_selectionnable texte_centre"
-          style={{
-            fontSize: tailleTel
-              ? "5em"
-              : tailleInt2 && !tailleInt1 && !tailleOrdi
-              ? "6em"
-              : tailleInt1 && !tailleOrdi
-              ? "8em"
-              : "10em",
-          }}
-        >
-          Les Recettes de Sabine
-        </div>
-
-        <div className="plage_user_auth">
-          <div id="plage_recherche" className="elements_centre">
-            <form
-              className="elements_centre colonne"
-              id="groupe_recherche"
-              onSubmit={(e) => rechercher(e)}
-            >
-              <input
-                id="input_recherche"
-                placeholder="Rechercher une recette..."
-                onChange={(e) => myOnChange(e)}
-                value={mySearch}
-                style={{
-                  width: tailleTel
-                    ? "350px"
-                    : tailleInt2 && !tailleInt1
-                    ? "800px"
-                    : "100%",
-                }}
-              ></input>
-              <div className="elements_centre ligne">
-                {myFilterList.length > 0
-                  ? myFilterList.map((cat, index_cat) =>
-                      cat[1] ? (
-                        <div
-                          key={"cat" + index_cat}
-                          className="categorie_rct elements_centre gras"
-                        >
-                          {cat}
-                        </div>
-                      ) : null
-                    )
-                  : null}
-              </div>
-              {<div className="elements_centre"></div>}
-              <div
-                className="btn_recherche elements_centre"
-                style={{ flexWrap: "wrap", rowGap: "30px" }}
-              >
-                <div
-                  className={
-                    tailleTel ? "bouton_board_empty_tel" : "bouton_board_empty"
-                  }
-                  onClick={(e) => rechercher(e)}
-                >
-                  Rechercher
-                </div>
-                <div
-                  className={
-                    tailleTel ? "bouton_board_empty_tel" : "bouton_board_empty"
-                  }
-                  onClick={(e) => menuFiltre(e)}
-                >
-                  Filtre
-                </div>
-                <div
-                  className={
-                    tailleTel ? "bouton_board_empty_tel" : "bouton_board_empty"
-                  }
-                  onClick={(e) => reinitialisation(e)}
-                >
-                  Réinitialisation
-                </div>
-              </div>
-            </form>
-
-            {mySearchList.length > 0 ? (
-              <div>
-                <div className="titre_pqt_vignette elements_centre texte_taille_5">
-                  Résultat recherche
-                </div>
-                <div className="plage_vignette elements_centre">
-                  {mySearchList.map((myRct, index) => (
-                    <VignetteRecette
-                      key={"search" + index}
-                      myId={myRct.rct_id}
-                      myName={myRct.rct_name}
-                      myImg={myRct.rct_img}
-                    />
-                  ))}
-                </div>
-              </div>
-            ) : null}
-          </div>
-
-          {myRctList.length > 0 ? (
-            <div>
-              <div className="titre_pqt_vignette elements_centre texte_taille_5">
-                Toutes les recettes
-              </div>
-              <div className="plage_vignette elements_centre">
-                {myRctList.map((myRct, index) => (
-                  <VignetteRecette
-                    key={"list" + index}
-                    myId={myRct.rct_id}
-                    myName={myRct.rct_name}
-                    myImg={myRct.rct_img}
-                  />
-                ))}
-              </div>
-            </div>
-          ) : null}
-        </div>
-      </div>
       <div
         id={boardModificationName}
         className="board_menu_suppl elements_centre"
-      >
-        {myFilterBool ? (
-          <MenuFiltreRecherche
-            myFilterList={myFilterList}
-            setMyFilterList={setMyFilterList}
-            myBoard={myBoard}
-            myFilterBool={myFilterBool}
-            setMyFilterBool={setMyFilterBool}
-            tailleTel={tailleTel}
-          />
-        ) : null}
-      </div>
+      ></div>
       <MenuAjoutRecette
         toShow={toShow}
         setToShow={setToShow}
         pseudo={pseudo}
         tailleTel={tailleTel}
+        dark={dark}
       />
-      <PiedDePage />
+      <PiedDePage dark={dark} />
     </div>
   );
 }

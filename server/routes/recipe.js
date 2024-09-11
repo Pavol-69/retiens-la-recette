@@ -73,16 +73,31 @@ router.post("/addRecipe", authorization, async (req, res) => {
       "CREATE TABLE IF NOT EXISTS table_categories(table_cat_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(), rct_id VARCHAR(255) NOT NULL)"
     );
 
-    // Ajout d'une ligne dans la table recette avec le nom transmis
+    // Vérification de si le nom est déjà existant ou non
+    const rct_name_list = await pool.query("SELECT rct_name FROM recettes");
+    for (i = 0; i < rct_name_list.rows.length; i++) {
+      if (
+        req.body.rct_name.toLowerCase() ==
+        rct_name_list.rows[i].rct_name.toLowerCase()
+      ) {
+        return res.status(401).json("Nom de recette déjà utilisé.");
+      }
+    }
+
+    // Mise en forme du titre : 1ère lettre majuscule, le reste en minuscule
+    const myName =
+      req.body.rct_name.charAt(0).toUpperCase() + req.body.rct_name.slice(1);
+
+    // Ajout d'une ligne dans la table recette avec le nom transmis => Au bon format
     await pool.query(
       "INSERT INTO recettes (rct_name, user_pseudo, rct_nb, rct_nb_type) VALUES ($1, $2, $3, $4)",
-      [req.body.rct_name, req.body.user_pseudo, 0, ""]
+      [myName, req.body.user_pseudo, 0, ""]
     );
 
     // Récupération de rct_id
     const rct_id = await pool.query(
       "SELECT rct_id FROM recettes WHERE rct_name = $1",
-      [req.body.rct_name]
+      [myName]
     );
 
     // Initialisation Images
@@ -152,11 +167,13 @@ router.get("/getRecipesList", authorization, async (req, res) => {
     for (let i = 0; i < myRecipeList.length; i++) {
       // Récupération des Catégories
       let myCatList = [];
+
       if (myVerifCat) {
         let myLine = await pool.query(
           "SELECT * FROM table_categories WHERE rct_id = $1",
           [myRecipeList[i].rct_id]
         );
+        console.log(myLine);
         for (j = 0; j < myLine.fields.length; j++) {
           if (myLine.rows[0][myLine.fields[j].name] === true) {
             myCatList.push(myLine.fields[j].name);
@@ -343,7 +360,14 @@ router.post("/updateRecipeIngredients", authorization, async (req, res) => {
     for (let i = 0; i < new_rct_section_ing.length; i++) {
       await pool.query(
         "INSERT INTO section_ing (rct_id, section_ing_name, section_ing_position) VALUES ($1, $2, $3)",
-        [rct_id, new_rct_section_ing[i][0], new_rct_section_ing[i][1]]
+        [
+          rct_id,
+          new_rct_section_ing[i][0] == "no_section"
+            ? new_rct_section_ing[i][0]
+            : new_rct_section_ing[i][0].charAt(0).toUpperCase() +
+              new_rct_section_ing[i][0].slice(1),
+          new_rct_section_ing[i][1],
+        ]
       );
     }
 
@@ -393,7 +417,14 @@ router.post("/updateRecipeSteps", authorization, async (req, res) => {
     for (let i = 0; i < new_rct_section_step.length; i++) {
       await pool.query(
         "INSERT INTO section_step (rct_id, section_step_name, section_step_position) VALUES ($1, $2, $3)",
-        [rct_id, new_rct_section_step[i][0], new_rct_section_step[i][1]]
+        [
+          rct_id,
+          new_rct_section_step[i][0] == "no_section"
+            ? new_rct_section_step[i][0]
+            : new_rct_section_step[i][0].charAt(0).toUpperCase() +
+              new_rct_section_step[i][0].slice(1),
+          new_rct_section_step[i][1],
+        ]
       );
     }
 
@@ -581,11 +612,9 @@ router.post("/updateRecipeCategories", authorization, async (req, res) => {
 
     for (let i = 0; i < rct_cat.length; i++) {
       await pool.query(
-        "UPDATE table_categories SET " +
-          rct_cat[i][0] +
-          " = " +
-          rct_cat[i][1] +
-          " WHERE rct_id = $1",
+        `UPDATE table_categories SET ${rct_cat[i][0].replace(" ", "_")} = ${
+          rct_cat[i][1] ? "TRUE" : "FALSE"
+        } WHERE rct_id = $1`,
         [rct_id]
       );
     }
@@ -606,6 +635,8 @@ router.post("/updateRecipeImages", authorization, async (req, res) => {
       "UPDATE images SET img_1 = $1, img_2 = $2, img_3 = $3, img_4 = $4, img_5 = $5 WHERE rct_id = $6",
       [rct_img[0], rct_img[1], rct_img[2], rct_img[3], rct_img[4], rct_id]
     );
+
+    res.json(true);
   } catch (err) {
     console.log(err.message);
     res.status(500).json("Erreur serveur");
@@ -625,6 +656,8 @@ router.post("/deleteRecipe", authorization, async (req, res) => {
     await pool.query("DELETE FROM table_categories WHERE rct_id = $1", [
       rct_id,
     ]);
+
+    res.json(true);
   } catch (err) {
     console.log(err.message);
     res.status(500).json("Erreur serveur");

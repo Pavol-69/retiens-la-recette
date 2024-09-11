@@ -1,21 +1,11 @@
-.input_ajout_recette,
-.input_ajout_recette_tel {
-  /*Dimensions*/
-  height: 30px;
-  margin-top: 10px;
-  padding-left: 10px;
-  padding-right: 10px;
-
-  /*Texte*/
-  font-size: 1.3em;
+.grid_new_rct {
+  /*Grille*/
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 80px 80px 80px;
 }
 
-.input_ajout_recette {
-  /*Dimensions*/
-  width: 800px;
-}
-
-.input_ajout_recette_tel {
-  /*Dimensions*/
-  width: 350px;
+.pqt_boutons {
+  /*Flex*/
+  gap: 20px;
 }

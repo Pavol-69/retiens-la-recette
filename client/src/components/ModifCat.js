@@ -1,8 +1,8 @@
 // CCS
 import "../styles/CSSGeneral.css";
 import "../styles_pages/CreationRecette.css";
-import "../styles/BoutonBoard.css";
 import "../styles/ModifTitreRecette.css";
+import "../styles/ModifCat.css";
 
 // Autre
 import { toast } from "react-toastify";
@@ -15,6 +15,7 @@ function ModifCat({
   myBoard,
   setCatList,
   tailleTel,
+  dark,
 }) {
   function myOnChange(e) {
     setNewName(e.target.value);
@@ -75,42 +76,38 @@ function ModifCat({
   }
 
   return (
-    <form
-      id="menu_modif_nom_categorie"
-      className="menu_modif elements_centre"
-      onSubmit={(e) => onSubmitValider(e)}
-    >
-      <div className="titre_modif texte_centre">
+    <form id="menu_modif_nom_categorie" onSubmit={(e) => onSubmitValider(e)}>
+      <div
+        className="titre_modif titre_modif_cat elements_centre"
+        style={{ color: `var(--${dark ? "wht" : "blk"})` }}
+      >
         Modification du nom de la Catégorie
       </div>
       <input
         onChange={myOnChange}
-        className={tailleTel ? "input_modif_tel" : "input_modif"}
+        className="input"
+        style={{
+          margin: "auto",
+          width: tailleTel ? "350px" : "800px",
+          left: "0px",
+        }}
         type="text"
         name="cat_name"
         placeholder="Veuillez renseigner un nom pour cette catégorie"
         value={newName}
       ></input>
-      <div className="paquet_boutons">
+      <div className="pqt_boutons elements_centre">
         <div
-          className={
-            tailleTel
-              ? "bouton_board_tel non_selectionnable"
-              : "bouton_board non_selectionnable"
-          }
-          id="bouton_valider"
+          className="button"
           onClick={(e) => onSubmitValider(e)}
+          style={{ color: `var(--${dark ? "wht" : "blk"})` }}
         >
           Valider
         </div>
         <div
-          className={
-            tailleTel
-              ? "bouton_board_tel non_selectionnable"
-              : "bouton_board non_selectionnable"
-          }
-          id="bouton_annuler"
+          className="button"
           onClick={(e) => annuler(e)}
+          style={{ color: `var(--${dark ? "wht" : "blk"})` }}
         >
           Annuler
         </div>

@@ -1,0 +1,133 @@
+$burger_size: 30px;
+
+.case_burger {
+  /*Position*/
+  position: absolute;
+  top: 0px;
+  left: 10px;
+
+  /*Dimensions*/
+  width: 70px;
+  height: 70px;
+
+  /*Style*/
+  cursor: pointer;
+}
+
+.trait_burger {
+  /*Position*/
+  position: absolute;
+
+  /*Dimensions*/
+  width: $burger_size + 10px;
+  height: 3px;
+
+  /*Style*/
+  background-color: var(--wht);
+  border-radius: 1px;
+
+  &1 {
+    transform: translateY(-$burger_size/2);
+    &_nrm {
+      animation: anim1 0.6s forwards;
+    }
+    &_rvs {
+      animation: anim1_rvs 0.6s forwards;
+    }
+  }
+
+  &2 {
+    &_nrm {
+      animation: anim2 0.3s forwards;
+    }
+    &_rvs {
+      animation: anim2_rvs 0.3s forwards;
+    }
+  }
+
+  &3 {
+    transform: translateY($burger_size/2);
+    &_nrm {
+      animation: anim3 0.6s forwards;
+    }
+    &_rvs {
+      animation: anim3_rvs 0.6s forwards;
+    }
+  }
+}
+
+@keyframes anim1 {
+  0% {
+    transform: translateY(-$burger_size/2);
+  }
+
+  50% {
+    transform: translateY(0);
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(45deg);
+  }
+}
+
+@keyframes anim1_rvs {
+  0% {
+    transform: rotate(45deg);
+  }
+
+  50% {
+    transform: translateY(0);
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: translateY(-$burger_size/2);
+  }
+}
+
+@keyframes anim2 {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes anim2_rvs {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes anim3 {
+  0% {
+    transform: translateY($burger_size/2);
+  }
+
+  50% {
+    transform: translateY(0);
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(-45deg);
+  }
+}
+
+@keyframes anim3_rvs {
+  0% {
+    transform: rotate(-45deg);
+  }
+
+  50% {
+    transform: translateY(0);
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: translateY($burger_size/2);
+  }
+}

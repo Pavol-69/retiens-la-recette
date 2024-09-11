@@ -37,9 +37,9 @@ router.post("/reset", validmail, async (req, res) => {
       mailOptions = {
         from: `${process.env.HEROKU_MAIL}`,
         to: `${mail}`,
-        subject: "Réinitialisation Mot de Passe - Les Recettes de Sabine",
+        subject: "Réinitialisation Mot de Passe - Retiens la recette",
         text:
-          "https://lesrecettesdesabine-1b41199a24fd.herokuapp.com/portail_connexion/reinitialisation_mot_de_passe/" +
+          "Bonjour,\nVeuillez cliquer sur le lien suivant afin de réinitialiser votre mot de passe :\nhttps://lesrecettesdesabine-1b41199a24fd.herokuapp.com/reinitialisation_mot_de_passe/" +
           `${token}`,
       };
     } else {
@@ -57,9 +57,9 @@ router.post("/reset", validmail, async (req, res) => {
       mailOptions = {
         from: `${process.env.mail}`,
         to: `${mail}`,
-        subject: "Réinitialisation Mot de Passe - Les Recettes de Sabine",
+        subject: "Réinitialisation Mot de Passe - Retiens la Recette",
         text:
-          "http://localhost:3000/portail_connexion/reinitialisation_mot_de_passe/" +
+          "Bonjour,\nVeuillez cliquer sur le lien suivant afin de réinitialiser votre mot de passe :\nhttp://localhost:3000/reinitialisation_mot_de_passe/" +
           `${token}`,
       };
     }

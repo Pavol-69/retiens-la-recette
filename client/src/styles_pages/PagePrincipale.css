@@ -1,19 +1,17 @@
-#titre_site {
-  /*Centrage*/
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.grid_accueil {
+  /*Grille*/
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 250px 120px 100px auto;
 
-  /*Position*/
-  margin-top: 20px;
+  /*Animation*/
+  transition: 0.5s;
+}
 
-  /*Dimensions*/
-  width: 100%;
-  height: 200px;
-
-  /*Texte*/
-  font-family: Cookie;
-  color: var(--color-text);
+.grid_form {
+  /*Grille*/
+  display: grid;
+  grid-template-columns: 1fr;
 }
 
 .plage_vignette {
@@ -55,22 +53,41 @@
   /*Position*/
   margin-bottom: 20px;
   margin-top: 15px;
+
+  /*Flex*/
+  gap: 20px;
+}
+
+.pqt {
+  /*Position*/
+  position: relative;
+  margin: auto;
+}
+
+.anim_entry {
+  /*Animation*/
+  animation: entry 0.8s forwards ease-in-out;
+}
+
+@keyframes entry {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }
 
 .titre_pqt_vignette {
   /*Position*/
   position: relative;
-  margin-bottom: 20px;
 
-  /*Dimensions*/
-  height: 50px;
-
-  /*Style*/
-  color: var(--color-text);
-  text-shadow: 1px 1px 2px var(--main-color);
+  /*Style
+  text-shadow: 1px 1px 2px var(--main);*/
 }
 
-.titre_pqt_vignette::after {
+.trait_pqt_vignette {
   /*Position*/
   position: absolute;
   top: 50px;
@@ -79,31 +96,70 @@
   height: 2px;
   width: 400px;
 
-  /*Style*/
-  background-color: var(--color-text);
-
   /*Gégéral*/
   content: "";
 
-  /*Hover*/
+  /*Hover
+  transition: 0.3s;*/
+}
+
+.cancel {
+  /*Position*/
+  position: absolute;
+  top: 90px;
+
+  /*Dimensions*/
+  width: 100px;
+  height: 30px;
+
+  /*Style*/
+  color: var(--main);
+  cursor: pointer;
+
+  /*Animation*/
   transition: 0.3s;
 }
 
-.categorie_rct {
+.cancel:hover {
+  /*Style*/
+  font-weight: bold;
+}
+
+.ctn_search {
   /*Position*/
-  position: relative;
+  position: absolute;
 
   /*Dimensions*/
-  padding-left: 20px;
-  padding-right: 20px;
-  height: 100%;
-  margin: 10px;
+  width: 100%;
+
+  /*Animation*/
+  transition: 0.5s;
+}
+
+.ctn_cat {
+  /*Dimensions*/
+  height: 130px;
+  padding: 10px 20px 10px 20px;
 
   /*Style*/
-  border-radius: 5px;
-  color: var(--color-text);
-  text-shadow: 1px 1px 2px var(--main-color);
+  border-top: solid 1px var(--main);
+  border-bottom: solid 1px var(--main);
 
-  /*Texte*/
-  font-size: 1.2em;
+  /*Flex*/
+  gap: 20px;
+  flex-wrap: wrap;
+
+  /*Autre*/
+  overflow-y: auto;
+}
+
+.ctn_cat::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  background-color: var(--blk); /* or add it to the track */
+}
+
+.ctn_cat::-webkit-scrollbar-thumb {
+  background: var(--main);
+  border-radius: 8px;
 }

@@ -1,21 +1,72 @@
-.img_bandeau {
+.div_bandeau {
   /*Position*/
   position: absolute;
   z-index: -3;
 
   /*Dimensions*/
   width: 100%;
+}
+
+.img_bandeau {
+  /*Position*/
+  position: absolute;
+  z-index: -3;
+  bottom: 0px;
+
+  /*Dimensions*/
+  min-height: 100%;
+  width: 100%;
   object-fit: cover;
+}
+
+.blur_bandeau {
+  /*Position*/
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  bottom: 0px;
+  right: 0px;
+
+  /*Flou*/
+  backdrop-filter: blur(4px);
 }
 
 .degrade {
   /*Position*/
   position: absolute;
   z-index: -1;
+  bottom: 0px;
 
   /*Dimensions*/
   width: 100%;
+}
 
-  /*Style*/
-  background: linear-gradient(rgb(0, 0, 0, 0), rgb(255, 255, 255));
+.dark_light {
+  animation: anim_dark_light 0.5s;
+}
+
+.light_dark {
+  animation: anim_light_dark 0.5s;
+}
+
+@keyframes anim_dark_light {
+  0% {
+    background: linear-gradient(rgb(30, 30, 30, 0), var(--blk)) forwards
+      ease-in-out;
+  }
+
+  100% {
+    background: linear-gradient(rgb(250, 250, 250, 0), var(--wht)) forwards
+      ease-in-out;
+  }
+}
+
+@keyframes anim_light_dark {
+  0% {
+    background: linear-gradient(rgb(250, 250, 250, 0), var(--wht));
+  }
+
+  100% {
+    background: linear-gradient(rgb(30, 30, 30, 0), var(--blk));
+  }
 }

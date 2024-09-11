@@ -1,0 +1,24 @@
+.notif {
+  /*Position*/
+  position: absolute;
+  top: 8px;
+  right: 8px;
+
+  /*Dimensions*/
+  height: 19px;
+  width: 19px;
+  border-radius: 20px;
+
+  /*Style*/
+  background-color: rgb(200, 0, 0);
+}
+
+.notif_txt {
+  /*Position*/
+  position: absolute;
+  top: -2px;
+  left: 4px;
+
+  /*Style*/
+  color: var(--wht);
+}

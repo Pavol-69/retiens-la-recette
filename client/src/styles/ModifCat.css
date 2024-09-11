@@ -1,12 +1,17 @@
 #menu_modif_nom_categorie {
   /*Position*/
-  padding-top: 250px;
+  margin: auto;
 
-  /*Dimensions*/
-  width: 100%;
+  /*Grille*/
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 80px 100px 100px;
 }
 
-.input_modif {
+.titre_modif_cat {
   /*Dimensions*/
-  width: 500px;
+  padding: 0px 10px 0px 10px;
+
+  /*Style*/
+  text-align: center;
 }

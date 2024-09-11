@@ -1,8 +1,11 @@
+// Components
+import PlusIcon from "./PlusIcon";
+
 // CCS
 import "../styles/CSSGeneral.css";
 import "../styles_pages/CreationRecette.css";
-import "../styles/BoutonBoard.css";
 import "../styles/ModifStep.css";
+import "../styles/ModifIngredient.css";
 
 // Autre
 import React, { useState } from "react";
@@ -19,112 +22,16 @@ function ModifStep({
   setMyRct,
   defaultValue_step,
   defaultValue_section,
-  setChangingSteps,
+  setModify,
   myBoard,
   tailleTel,
+  dark,
 }) {
   const [myInfo, setMyInfo] = useState({
     rct_step: defaultValue_step,
     rct_section_step: defaultValue_section,
   });
   const [mySupprBool, setMySupprBool] = useState(false);
-
-  function ouvertureModif(myBool) {
-    if (myBool) {
-      myBoard.style.left = "0px";
-    } else {
-      myBoard.style.left = "100vw";
-    }
-  }
-
-  async function updateRecipeDb(mySectionStepList, myStepList) {
-    try {
-      const response = await fetch("/recipe/updateRecipeSteps", {
-        method: "Post",
-        headers: {
-          rct_id: rct_id,
-          "content-type": "application/json",
-          token: localStorage.token,
-        },
-
-        body: JSON.stringify({
-          rct_id: rct_id,
-          rct_section_step: mySectionStepList,
-          rct_step: myStepList,
-        }),
-      });
-
-      const parseRes = await response.json();
-
-      if (parseRes) {
-        toast.success("Recette mise à jour avec succès");
-        return true;
-      } else {
-        toast.error(parseRes);
-        return false;
-      }
-    } catch (err) {
-      console.error(err.message);
-    }
-  }
-
-  function annuler(e) {
-    e.preventDefault();
-    ouvertureModif(false);
-    setChangingSteps(false);
-  }
-
-  function onSubmitValider(e) {
-    e.preventDefault();
-    // Enregistrement de toutes nos nouvelles données
-
-    let k = 0;
-    let myStepList = [];
-    let mySectionStepList = [];
-    let myField = document.getElementById("field_sections");
-    mySectionStepList.push(["no_section", 1]);
-
-    for (let i = 0; i < myField.childNodes.length; i++) {
-      let myNode = myField.childNodes[i];
-      // Sections
-      if (i > 0) {
-        mySectionStepList.push([
-          myNode.childNodes[0].childNodes[3].value,
-          i + 1,
-        ]);
-        myNode = myNode.childNodes[1];
-      } else {
-        myNode = myNode.childNodes[0];
-      }
-
-      // Steps
-      for (let j = 0; j < myNode.childNodes.length; j++) {
-        let mySubNode = myNode.childNodes[j];
-        k++;
-        myStepList.push([
-          mySubNode.childNodes[0].childNodes[3].value,
-          i + 1,
-          k,
-        ]);
-      }
-    }
-
-    setMyInfo((prev) => ({
-      ...prev,
-      rct_step: myStepList,
-      rct_section_step: mySectionStepList,
-    }));
-
-    if (updateRecipeDb(mySectionStepList, myStepList)) {
-      setMyRct((prev) => ({
-        ...prev,
-        rct_step: myStepList,
-        rct_section_step: mySectionStepList,
-      }));
-      ouvertureModif(false);
-      setChangingSteps(false);
-    }
-  }
 
   function ajoutSection(e) {
     e.preventDefault();
@@ -203,7 +110,7 @@ function ModifStep({
 
       if (isSection || isStep) {
         // Ma poubelle pour suppression
-        const maPoubelle = document.getElementById("icone_poubelle");
+        const maPoubelle = document.getElementById("icone_poubelle_step");
 
         // Coordonnées souris
         let myX = 0;
@@ -229,8 +136,12 @@ function ModifStep({
         myField.appendChild(myTempo);
         myTempo.style.height = myDrag.offsetHeight + "px";
         if (isStep) {
-          myTempo.style.marginLeft = "50px";
+          myTempo.style.marginLeft = "30px";
         }
+
+        myTempo.style.backgroundColor = `rgb(${
+          dark ? "30,30,30" : "250,250,250"
+        },0.3)`;
 
         // L'élément pris en drag passe en position absolute pour suivre les mouvements de la souris
         myDrag.style.position = "absolute";
@@ -302,23 +213,30 @@ function ModifStep({
 
           // on repositionne l'élément drag par rapport à la souris afin qu'on est l'impression qu'on ait sélectionné le milieu du bloc de saisie
           if (isStep) {
-            myDrag.style.left = myX - 71 + "px";
+            myDrag.style.left = myX - 52 + "px";
+            myDrag.style.top =
+              myY +
+              myBoard.scrollTop -
+              window.scrollY -
+              myDrag.offsetHeight / 2 +
+              "px";
           } else {
-            myDrag.style.left = myX - 31 + "px";
+            myDrag.style.left = myX - 32 + "px";
+            myDrag.style.top =
+              myY - 35 + myBoard.scrollTop - window.scrollY + "px";
           }
-          myDrag.style.top =
-            myY - 31 + myBoard.scrollTop - window.scrollY + "px";
 
           //On ajuste myY selon le scroll
           myY = myY - window.scrollY;
 
           // Changement de l'animation de la poubelle quand on passe dessus
+
           if (
             myY > maPoubelle.offsetTop - myBoard.scrollTop &&
             myY <
-              maPoubelle.offsetTop +
-                maPoubelle.offsetHeight -
-                myBoard.scrollTop &&
+              maPoubelle.offsetTop -
+                myBoard.scrollTop +
+                maPoubelle.offsetHeight &&
             myX > maPoubelle.offsetLeft &&
             myX < maPoubelle.offsetLeft + maPoubelle.offsetWidth
           ) {
@@ -380,11 +298,11 @@ function ModifStep({
 
           // Suppression de myDrag si myPosition = -3, sinon on met à jour tout le reste
           if (
-            myY > maPoubelle.offsetTop + myBoard.scrollTop &&
+            myY > maPoubelle.offsetTop - myBoard.scrollTop &&
             myY <
-              maPoubelle.offsetTop +
-                maPoubelle.offsetHeight +
-                myBoard.scrollTop &&
+              maPoubelle.offsetTop -
+                myBoard.scrollTop +
+                maPoubelle.offsetHeight &&
             myX > maPoubelle.offsetLeft &&
             myX < maPoubelle.offsetLeft + maPoubelle.offsetWidth
           ) {
@@ -408,16 +326,17 @@ function ModifStep({
             if (isStep) {
               if (myPosition === -1) {
                 // Si première position mais que le compartiment "no_section" est vide, il faut le mettre dedans plutôt que "avant le premier élément"
-                if (myField.childNodes[0].childNodes.length > 0) {
+                if (myField.childNodes[0].childNodes[0].childNodes.length > 0) {
                   myTopList[0].before(myDrag);
                 } else {
-                  myField.childNodes[0].childNodes[1].appendChild(myDrag);
+                  myField.childNodes[0].childNodes[0].appendChild(myDrag);
                 }
               } else if (myPosition === -2) {
                 // Si le dernier élément est une section, il faut mettre la step dedans et non pas en dernière position
                 if (
-                  myTopList[myTopList.length - 1].childNodes[0].className ===
-                  "ligne_section"
+                  myTopList[
+                    myTopList.length - 1
+                  ].childNodes[0].className.indexOf("ligne_section_step") > -1
                 ) {
                   myTopList[myTopList.length - 1].childNodes[1].appendChild(
                     myDrag
@@ -431,13 +350,15 @@ function ModifStep({
                 // Dans le cas où on veut le mettre à la fin d'une section, c'est que l'élément suivant est une section, donc appendChild à l'élément n-1
                 // Attention à l'élément 0, particulier car non présent dans myTopList
                 if (
-                  myTopList[myPosition].childNodes[0].className ===
-                    "ligne_section" &&
+                  myTopList[myPosition].childNodes[0].className.indexOf(
+                    "ligne_section_step"
+                  ) > -1 &&
                   myPosition > 0
                 ) {
                   if (
-                    myTopList[myPosition - 1].childNodes[0].className ===
-                    "ligne_section"
+                    myTopList[myPosition - 1].childNodes[0].className.indexOf(
+                      "ligne_section_step"
+                    ) > -1
                   ) {
                     myTopList[myPosition - 1].childNodes[1].appendChild(myDrag);
                   } else {
@@ -476,65 +397,89 @@ function ModifStep({
 
   return (
     <form
-      className="menu_modif elements_centre"
-      style={{ width: tailleTel ? "800px" : null }}
+      className="grid_modif grid_modif_step"
+      style={{ width: `${tailleTel ? "400" : "800"}px` }}
     >
-      <div className="titre_modif texte_centre">Liste étapes</div>
-      <div className="paquet_btn_step elements_centre ligne">
+      <div
+        className="titre_mdf"
+        style={{ color: `var(--${dark ? "wht" : "blk"})` }}
+      >
+        Liste étapes
+      </div>
+      <div className="ctn_btn_dnd elements_centre">
         <div
-          className={
-            tailleTel
-              ? "bouton_board_tel non_selectionnable texte_centre"
-              : "bouton_board non_selectionnable texte_centre"
-          }
+          className="button"
+          style={{ gap: "5px", color: `var(--${dark ? "wht" : "blk"})` }}
           onClick={(e) => ajoutSection(e)}
         >
-          Ajouter une section
+          <PlusIcon dark={dark} />
+          <span>Section</span>
         </div>
         <div
-          className={
-            tailleTel
-              ? "bouton_board_tel non_selectionnable texte_centre"
-              : "bouton_board non_selectionnable texte_centre"
-          }
+          className="button"
+          style={{ gap: "5px", color: `var(--${dark ? "wht" : "blk"})` }}
           onClick={(e) => ajoutStep(e)}
         >
-          Ajouter une étape
+          <PlusIcon dark={dark} />
+          <span>Etape</span>
         </div>
-        <div id="icone_poubelle">
-          <FontAwesomeIcon
-            id="icone_poubelle_img"
-            icon={faTrash}
-            bounce={mySupprBool}
-            style={{ color: "#000000" }}
-          />
+
+        <div
+          id="icone_poubelle_step"
+          className="elements_centre"
+          style={{ backgroundColor: `var(--${dark ? "blk" : "wht"})` }}
+        >
+          <FontAwesomeIcon size="2x" icon={faTrash} bounce={mySupprBool} />
         </div>
       </div>
-      <div id="field_sections" style={{ width: tailleTel ? "400px" : null }}>
+      <div
+        id="field_sections_step"
+        style={{ width: tailleTel ? "400px" : null }}
+      >
         {myInfo.rct_section_step.length > 0
           ? myInfo.rct_section_step.map((section_step, index) => (
               <div key={"modif_section_step" + index} className="case">
                 {section_step[0] !== "no_section" ? (
-                  <div className="ligne_section_step elements_centre">
+                  <div
+                    className="ligne_section_step elements_centre"
+                    style={{
+                      backgroundColor: `var(--${dark ? "blk" : "wht"})`,
+                    }}
+                  >
                     <div className="case_icone_4_fleches elements_centre">
                       <FontAwesomeIcon
-                        size="2x"
+                        size="sm"
                         icon={faArrowsUpDownLeftRight}
-                        style={{ color: "var(--color-text)" }}
+                        style={{
+                          color: `var(--main)`,
+                          border: "solid 1px var(--main)",
+                          padding: "3px",
+                          borderRadius: "50px",
+                        }}
                       />
                     </div>
                     <div
                       className="saisie"
                       onMouseDown={(e) => dragDrop(e)}
                     ></div>
-                    <div className="non_select gras">Section : </div>
+                    <div
+                      className="non_select gras"
+                      style={{ color: `var(--${dark ? "wht" : "blk"})` }}
+                    >
+                      Section :{" "}
+                    </div>
                     <input
                       onChange={myOnChange_section_step}
                       className="input_section_step non_select"
                       name={"input_section_step_" + section_step[1]}
                       value={section_step[0]}
                       type="text"
-                      style={{ width: tailleTel ? "250px" : "500px" }}
+                      style={{
+                        backgroundColor: `var(--${dark ? "blk" : "wht"})`,
+                        color: `var(--${dark ? "wht" : "blk"})`,
+                        fontSize: tailleTel ? "0.7em" : "0.8em",
+                        width: tailleTel ? "230px" : "630px",
+                      }}
                       placeholder="Veuillez renseigner un nom de section"
                     ></input>
                   </div>
@@ -545,12 +490,24 @@ function ModifStep({
                     ? myInfo.rct_step.map((step, index) =>
                         step[1] === section_step[1] ? (
                           <div key={"modif_step" + index} className="case">
-                            <div className="ligne_step elements_centre">
+                            <div
+                              className="ligne_step elements_centre"
+                              style={{
+                                backgroundColor: `var(--${
+                                  dark ? "blk" : "wht"
+                                })`,
+                              }}
+                            >
                               <div className="case_icone_4_fleches elements_centre">
                                 <FontAwesomeIcon
-                                  size="2x"
+                                  size="sm"
                                   icon={faArrowsUpDownLeftRight}
-                                  style={{ color: "#000000" }}
+                                  style={{
+                                    color: `var(--main)`,
+                                    border: "solid 1px var(--main)",
+                                    padding: "3px",
+                                    borderRadius: "50px",
+                                  }}
                                 />
                               </div>
                               <div
@@ -558,15 +515,27 @@ function ModifStep({
                                 onMouseDown={(e) => dragDrop(e)}
                               ></div>
 
-                              <div className="non_select gras elements_centre">
+                              <div
+                                className="non_select gras elements_centre"
+                                style={{
+                                  color: `var(--${dark ? "wht" : "bkl"})`,
+                                  fontSize: tailleTel ? "0.9em" : "1em",
+                                }}
+                              >
                                 Etape :
                               </div>
                               <textarea
                                 onChange={myOnChange_step}
-                                className="input_step non_select"
+                                className="text_area_step input_step non_select"
                                 name={"input_step_" + step[2]}
                                 value={step[0]}
-                                style={{ width: tailleTel ? "230px" : "500px" }}
+                                style={{
+                                  width: tailleTel ? "210px" : "600px",
+                                  backgroundColor: `var(--${
+                                    dark ? "blk" : "wht"
+                                  })`,
+                                  color: `var(--${dark ? "wht" : "blk"})`,
+                                }}
                                 placeholder=" Contenu de votre étape..."
                               ></textarea>
                             </div>
@@ -579,30 +548,7 @@ function ModifStep({
             ))
           : null}
       </div>
-      <div className="paquet_boutons">
-        <div
-          className={
-            tailleTel
-              ? "bouton_board_tel non_selectionnable texte_centre"
-              : "bouton_board non_selectionnable texte_centre"
-          }
-          id="bouton_valider"
-          onClick={(e) => onSubmitValider(e)}
-        >
-          Valider
-        </div>
-        <div
-          className={
-            tailleTel
-              ? "bouton_board_tel non_selectionnable texte_centre"
-              : "bouton_board non_selectionnable texte_centre"
-          }
-          id="bouton_annuler"
-          onClick={(e) => annuler(e)}
-        >
-          Annuler
-        </div>
-      </div>
+      <div></div>
     </form>
   );
 }
