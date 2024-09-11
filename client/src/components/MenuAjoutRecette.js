@@ -24,18 +24,21 @@ function MenuAjoutRecette({ dark, toShow, setToShow, pseudo, tailleTel }) {
   // Fonctions fetch
   async function addRecipe() {
     try {
-      const response = await fetch("/recipe/addRecipe", {
-        method: "Post",
-        headers: {
-          "content-type": "application/json",
-          token: localStorage.token,
-        },
+      const response = await fetch(
+        "https://lesrecettesdesabine-1b41199a24fd.herokuapp.com/recipe/addRecipe",
+        {
+          method: "Post",
+          headers: {
+            "content-type": "application/json",
+            token: localStorage.token,
+          },
 
-        body: JSON.stringify({
-          rct_name: myName,
-          user_pseudo: pseudo,
-        }),
-      });
+          body: JSON.stringify({
+            rct_name: myName,
+            user_pseudo: pseudo,
+          }),
+        }
+      );
 
       const parseRes = await response.json();
 

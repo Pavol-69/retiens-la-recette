@@ -33,18 +33,21 @@ function PageConnexion({
   async function onSubmitForm(e) {
     e.preventDefault();
     try {
-      const response = await fetch("/auth/connexion", {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-        },
+      const response = await fetch(
+        "https://lesrecettesdesabine-1b41199a24fd.herokuapp.com/auth/connexion",
+        {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
 
-        body: JSON.stringify({
-          mail: mail,
-          password: password,
-          remember: remember,
-        }),
-      });
+          body: JSON.stringify({
+            mail: mail,
+            password: password,
+            remember: remember,
+          }),
+        }
+      );
 
       const parseRes = await response.json();
 

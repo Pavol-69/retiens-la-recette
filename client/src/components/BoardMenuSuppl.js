@@ -47,21 +47,24 @@ function BoardMenuSuppl({
 
   async function updateRct() {
     try {
-      const response = await fetch("/recipe/updateRecipeInfos", {
-        method: "POST",
-        headers: {
-          rct_id: rct_id,
-          "content-type": "application/json",
-          token: localStorage.token,
-        },
+      const response = await fetch(
+        "https://lesrecettesdesabine-1b41199a24fd.herokuapp.com/recipe/updateRecipeInfos",
+        {
+          method: "POST",
+          headers: {
+            rct_id: rct_id,
+            "content-type": "application/json",
+            token: localStorage.token,
+          },
 
-        body: JSON.stringify({
-          rct_id: rct_id,
-          rct_name: title,
-          rct_nb: nb,
-          rct_nb_type: nbType,
-        }),
-      });
+          body: JSON.stringify({
+            rct_id: rct_id,
+            rct_name: title,
+            rct_nb: nb,
+            rct_nb_type: nbType,
+          }),
+        }
+      );
 
       const parseRes = await response.json();
 
@@ -78,18 +81,21 @@ function BoardMenuSuppl({
 
   async function updateRecipeCat() {
     try {
-      const response = await fetch("/recipe/updateRecipeCategories", {
-        method: "Post",
-        headers: {
-          rct_id: rct_id,
-          "content-type": "application/json",
-          token: localStorage.token,
-        },
+      const response = await fetch(
+        "https://lesrecettesdesabine-1b41199a24fd.herokuapp.com/recipe/updateRecipeCategories",
+        {
+          method: "Post",
+          headers: {
+            rct_id: rct_id,
+            "content-type": "application/json",
+            token: localStorage.token,
+          },
 
-        body: JSON.stringify({
-          rct_cat: cat,
-        }),
-      });
+          body: JSON.stringify({
+            rct_cat: cat,
+          }),
+        }
+      );
 
       const parseRes = await response.json();
 
@@ -106,19 +112,22 @@ function BoardMenuSuppl({
 
   async function updateRecipeImg() {
     try {
-      const response = await fetch("/recipe/updateRecipeImages", {
-        method: "Post",
-        headers: {
-          rct_id: rct_id,
-          "content-type": "application/json",
-          token: localStorage.token,
-        },
+      const response = await fetch(
+        "https://lesrecettesdesabine-1b41199a24fd.herokuapp.com/recipe/updateRecipeImages",
+        {
+          method: "Post",
+          headers: {
+            rct_id: rct_id,
+            "content-type": "application/json",
+            token: localStorage.token,
+          },
 
-        body: JSON.stringify({
-          rct_id: rct_id,
-          rct_img: img,
-        }),
-      });
+          body: JSON.stringify({
+            rct_id: rct_id,
+            rct_img: img,
+          }),
+        }
+      );
 
       const parseRes = await response.json();
 
@@ -135,20 +144,23 @@ function BoardMenuSuppl({
 
   async function updateRecipeIng(mySectionIngList, myIngList) {
     try {
-      const response = await fetch("/recipe/updateRecipeIngredients", {
-        method: "Post",
-        headers: {
-          rct_id: rct_id,
-          "content-type": "application/json",
-          token: localStorage.token,
-        },
+      const response = await fetch(
+        "https://lesrecettesdesabine-1b41199a24fd.herokuapp.com/recipe/updateRecipeIngredients",
+        {
+          method: "Post",
+          headers: {
+            rct_id: rct_id,
+            "content-type": "application/json",
+            token: localStorage.token,
+          },
 
-        body: JSON.stringify({
-          rct_id: rct_id,
-          rct_section_ing: mySectionIngList,
-          rct_ing: myIngList,
-        }),
-      });
+          body: JSON.stringify({
+            rct_id: rct_id,
+            rct_section_ing: mySectionIngList,
+            rct_ing: myIngList,
+          }),
+        }
+      );
 
       const parseRes = await response.json();
 
@@ -165,20 +177,23 @@ function BoardMenuSuppl({
 
   async function updateStep(mySectionStepList, myStepList) {
     try {
-      const response = await fetch("/recipe/updateRecipeSteps", {
-        method: "Post",
-        headers: {
-          rct_id: rct_id,
-          "content-type": "application/json",
-          token: localStorage.token,
-        },
+      const response = await fetch(
+        "https://lesrecettesdesabine-1b41199a24fd.herokuapp.com/recipe/updateRecipeSteps",
+        {
+          method: "Post",
+          headers: {
+            rct_id: rct_id,
+            "content-type": "application/json",
+            token: localStorage.token,
+          },
 
-        body: JSON.stringify({
-          rct_id: rct_id,
-          rct_section_step: mySectionStepList,
-          rct_step: myStepList,
-        }),
-      });
+          body: JSON.stringify({
+            rct_id: rct_id,
+            rct_section_step: mySectionStepList,
+            rct_step: myStepList,
+          }),
+        }
+      );
 
       const parseRes = await response.json();
 

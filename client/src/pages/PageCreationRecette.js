@@ -69,10 +69,13 @@ function PageCreationRecette({
   // Fonctions fetch
   async function getRecipeInfos() {
     try {
-      const response = await fetch("/recipe/getRecipeInfos", {
-        method: "GET",
-        headers: { rct_id: rct_id, token: localStorage.token },
-      });
+      const response = await fetch(
+        "https://lesrecettesdesabine-1b41199a24fd.herokuapp.com/recipe/getRecipeInfos",
+        {
+          method: "GET",
+          headers: { rct_id: rct_id, token: localStorage.token },
+        }
+      );
 
       const parseRes = await response.json();
 

@@ -13,17 +13,20 @@ function SupprRecette({ rct_id, setChangingDelete, myBoard, dark }) {
 
   async function deleteRecipe() {
     try {
-      const response = await fetch("/recipe/deleteRecipe", {
-        method: "Post",
-        headers: {
-          "content-type": "application/json",
-          token: localStorage.token,
-        },
+      const response = await fetch(
+        "https://lesrecettesdesabine-1b41199a24fd.herokuapp.com/recipe/deleteRecipe",
+        {
+          method: "Post",
+          headers: {
+            "content-type": "application/json",
+            token: localStorage.token,
+          },
 
-        body: JSON.stringify({
-          rct_id: rct_id,
-        }),
-      });
+          body: JSON.stringify({
+            rct_id: rct_id,
+          }),
+        }
+      );
 
       const parseRes = await response.json();
 

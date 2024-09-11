@@ -46,10 +46,13 @@ function PagePrincipale({
   // fonctions fetch
   async function getRctList() {
     try {
-      const response = await fetch("/recipe/getRecipesList", {
-        method: "GET",
-        headers: { token: localStorage.token },
-      });
+      const response = await fetch(
+        "https://lesrecettesdesabine-1b41199a24fd.herokuapp.com/recipe/getRecipesList",
+        {
+          method: "GET",
+          headers: { token: localStorage.token },
+        }
+      );
 
       const parseRes = await response.json();
 
@@ -65,10 +68,13 @@ function PagePrincipale({
 
   async function getAllCategories() {
     try {
-      const response = await fetch("/recipe/getAllCategories", {
-        method: "GET",
-        headers: { token: localStorage.token },
-      });
+      const response = await fetch(
+        "https://lesrecettesdesabine-1b41199a24fd.herokuapp.com/recipe/getAllCategories",
+        {
+          method: "GET",
+          headers: { token: localStorage.token },
+        }
+      );
 
       const parseRes = await response.json();
 

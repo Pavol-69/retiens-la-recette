@@ -47,18 +47,21 @@ function ModifCat({
 
   async function updateCatName() {
     try {
-      const response = await fetch("/recipe/updateCategoryName", {
-        method: "Post",
-        headers: {
-          token: localStorage.token,
-          "content-type": "application/json",
-        },
+      const response = await fetch(
+        "https://lesrecettesdesabine-1b41199a24fd.herokuapp.com/recipe/updateCategoryName",
+        {
+          method: "Post",
+          headers: {
+            token: localStorage.token,
+            "content-type": "application/json",
+          },
 
-        body: JSON.stringify({
-          old_name: oldName,
-          cat_name: newName,
-        }),
-      });
+          body: JSON.stringify({
+            old_name: oldName,
+            cat_name: newName,
+          }),
+        }
+      );
 
       const parseRes = await response.json();
 

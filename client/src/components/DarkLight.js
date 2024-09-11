@@ -16,17 +16,20 @@ function DarkLight({ dark, setDark }) {
 
   async function onDarkChange(myDark) {
     try {
-      const response = await fetch("/dashboard/userDark", {
-        method: "POST",
-        headers: {
-          token: localStorage.token,
-          "content-type": "application/json",
-        },
+      const response = await fetch(
+        "https://lesrecettesdesabine-1b41199a24fd.herokuapp.com/dashboard/userDark",
+        {
+          method: "POST",
+          headers: {
+            token: localStorage.token,
+            "content-type": "application/json",
+          },
 
-        body: JSON.stringify({
-          dark: myDark,
-        }),
-      });
+          body: JSON.stringify({
+            dark: myDark,
+          }),
+        }
+      );
 
       const parseRes = await response.json();
 

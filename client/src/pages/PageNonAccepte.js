@@ -35,10 +35,13 @@ function PageNonAccepte({
   }
   async function deleteUser() {
     try {
-      const response = await fetch("/dashboard/deleteUser", {
-        method: "POST",
-        headers: { token: localStorage.token },
-      });
+      const response = await fetch(
+        "https://lesrecettesdesabine-1b41199a24fd.herokuapp.com/dashboard/deleteUser",
+        {
+          method: "POST",
+          headers: { token: localStorage.token },
+        }
+      );
 
       const parseRes = await response.json();
 

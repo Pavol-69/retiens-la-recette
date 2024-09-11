@@ -23,16 +23,19 @@ function PageMdpOublie({
   const onSubmitForm = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("/forgottenpassword/reset", {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-        },
+      const response = await fetch(
+        "https://lesrecettesdesabine-1b41199a24fd.herokuapp.com/forgottenpassword/reset",
+        {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
 
-        body: JSON.stringify({
-          mail: mail,
-        }),
-      });
+          body: JSON.stringify({
+            mail: mail,
+          }),
+        }
+      );
 
       const parseRes = await response.json();
       toast.info(parseRes);
