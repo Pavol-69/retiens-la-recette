@@ -12,10 +12,13 @@ function PrivateRoute({ isAuth, setIsAuth, setPseudo, setRole, setNbNotif }) {
 
   async function getUserInfos() {
     try {
-      const response = await fetch("/dashboard/userInfos", {
-        method: "GET",
-        headers: { token: localStorage.token },
-      });
+      const response = await fetch(
+        "https://lesrecettesdesabine-1b41199a24fd.herokuapp.com/dashboard/userInfos",
+        {
+          method: "GET",
+          headers: { token: localStorage.token },
+        }
+      );
 
       const parseRes = await response.json();
 
@@ -29,10 +32,13 @@ function PrivateRoute({ isAuth, setIsAuth, setPseudo, setRole, setNbNotif }) {
 
   async function isVerify() {
     try {
-      const response = await fetch("/auth/is-verified", {
-        method: "GET",
-        headers: { token: localStorage.token },
-      });
+      const response = await fetch(
+        "https://lesrecettesdesabine-1b41199a24fd.herokuapp.com/auth/is-verified",
+        {
+          method: "GET",
+          headers: { token: localStorage.token },
+        }
+      );
 
       const parseRes = await response.json();
 
@@ -66,10 +72,13 @@ function PrivateRoute({ isAuth, setIsAuth, setPseudo, setRole, setNbNotif }) {
 
   async function notifCalcul() {
     try {
-      const response = await fetch("/dashboard/getNbNotif", {
-        method: "GET",
-        headers: { token: localStorage.token },
-      });
+      const response = await fetch(
+        "https://lesrecettesdesabine-1b41199a24fd.herokuapp.com/dashboard/getNbNotif",
+        {
+          method: "GET",
+          headers: { token: localStorage.token },
+        }
+      );
 
       const parseRes = await response.json();
 
