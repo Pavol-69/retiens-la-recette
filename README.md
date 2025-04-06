@@ -6,4 +6,4 @@ No command need for the BackEnd, it runs online on Heroku platform
 
 # FrontEnd
 
-command : cd client && npm run start
+command : cd client && npm i && npm run start
